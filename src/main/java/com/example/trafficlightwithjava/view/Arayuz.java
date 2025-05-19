@@ -15,6 +15,8 @@ public class Arayuz {
         // Kavşak görüntüsü (ortaya yerleştir)
         IntersectionView intersectionView = new IntersectionView();
         // Ortalamak için StackPane içine alıyoruz
+        InputPanel inputPanel = new InputPanel();
+        root.setRight(inputPanel);
         StackPane centerPane = new StackPane(intersectionView);
         centerPane.setAlignment(Pos.CENTER);
         root.setCenter(intersectionView);
