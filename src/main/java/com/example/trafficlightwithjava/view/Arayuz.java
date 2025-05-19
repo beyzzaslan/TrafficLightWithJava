@@ -12,7 +12,7 @@ public class Arayuz {
     public Arayuz() {
         root = new BorderPane();
 
-        // Kavşak görüntüsü (ortaya yerleştir)
+        // Kavşaklarla görüntüsü (ortaya yerleştir)
         IntersectionView intersectionView = new IntersectionView();
         // Ortalamak için StackPane içine alıyoruz
         StackPane centerPane = new StackPane(intersectionView);
