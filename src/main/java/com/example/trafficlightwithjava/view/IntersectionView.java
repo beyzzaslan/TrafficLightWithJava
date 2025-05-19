@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.Group;
+import com.example.trafficlightwithjava.view.Direction;
 
 public class IntersectionView extends Pane {
 
@@ -58,6 +59,12 @@ public class IntersectionView extends Pane {
                 verticalLine, horizontalLine,
                 northLight, southLight, westLight, eastLight
         );
+        // Araçları oluştur ve sahneye ekle
+        VehicleView car1 = new VehicleView(Direction.NORTH);
+        VehicleView car2 = new VehicleView(Direction.EAST);
+
+
+        this.getChildren().addAll(car1, car2);
     }
 
     private Group createTrafficLight(double x, double y) {
@@ -72,4 +79,5 @@ public class IntersectionView extends Pane {
 
         return new Group(red, yellow, green);
     }
+
 }
