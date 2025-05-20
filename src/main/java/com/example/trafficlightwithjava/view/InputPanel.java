@@ -3,92 +3,159 @@ package com.example.trafficlightwithjava.view;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.util.Pair;
+
+import java.util.Optional;
 import java.util.Random;
 
 public class InputPanel extends VBox {
 
-    private TextField northField;
-    private TextField southField;
-    private TextField eastField;
-    private TextField westField;
-
+    private Button manualButton;
     private Button randomButton;
     private Button applyButton;
+    private Button resetButton;
+    private Button stopButton;
+    private Button continueButton;
+
+    private int northCount, southCount, eastCount, westCount;
 
     public InputPanel() {
-        // Arayüzün dış boşluğu
-        this.setPrefWidth(300); // veya daha geniş bir değer (örneğin 250)
+        this.setPrefWidth(300);
         this.setPadding(new Insets(10));
         this.setSpacing(10);
 
-
-        // Başlık
         Label title = new Label("Araç Yoğunluğu Girişi");
 
-        // TextField ve Label seti
-        northField = new TextField();
-        southField = new TextField();
-        eastField = new TextField();
-        westField = new TextField();
+        manualButton = new Button("Manuel Giriş");
+        randomButton = new Button("Rastgele Giriş");
 
-        northField.setPromptText("North");
-        southField.setPromptText("South");
-        eastField.setPromptText("East");
-        westField.setPromptText("West");
+        applyButton = new Button("Başlat");
+        resetButton = new Button("Resetle");
+        stopButton = new Button("Stop");
+        continueButton = new Button("Devam Et");
 
-        // Butonlar
-        randomButton = new Button("Rastgele Üret");
-        applyButton = new Button("Uygula");
+        applyButton.setVisible(false);
+        resetButton.setVisible(false);
+        stopButton.setVisible(false);
+        continueButton.setVisible(false);
 
-        // Grid yerleşimi
-        GridPane grid = new GridPane();
-        grid.setVgap(5);
-        grid.setHgap(10);
-        grid.add(new Label("North:"), 0, 0);
-        grid.add(northField, 1, 0);
-        grid.add(new Label("South:"), 0, 1);
-        grid.add(southField, 1, 1);
-        grid.add(new Label("East:"), 0, 2);
-        grid.add(eastField, 1, 2);
-        grid.add(new Label("West:"), 0, 3);
-        grid.add(westField, 1, 3);
+        manualButton.setOnAction(e -> openManualDialog());
+        randomButton.setOnAction(e -> generateRandomCounts());
 
-        // Butonların işlevi
-        randomButton.setOnAction(e -> generateRandom());
         applyButton.setOnAction(e -> applyCounts());
+        resetButton.setOnAction(e -> resetEvent());
+        stopButton.setOnAction(e -> stopEvent());
+        continueButton.setOnAction(e -> continueEvent());
 
-        // Panele ekle
-        this.getChildren().addAll(title, grid, randomButton, applyButton);
+        this.getChildren().addAll(title, manualButton, randomButton, applyButton, resetButton, stopButton, continueButton);
     }
 
-    // Rastgele sayı üret (1-10 arasında örnek)
-    private void generateRandom() {
+    private void openManualDialog() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Manuel Giriş");
+
+        GridPane grid = new GridPane();
+        grid.setVgap(10);
+        grid.setHgap(10);
+
+        TextField northField = new TextField();
+        TextField southField = new TextField();
+        TextField eastField = new TextField();
+        TextField westField = new TextField();
+
+        grid.addRow(0, new Label("North:"), northField);
+        grid.addRow(1, new Label("South:"), southField);
+        grid.addRow(2, new Label("East:"), eastField);
+        grid.addRow(3, new Label("West:"), westField);
+
+        dialog.getDialogPane().setContent(grid);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        Optional<ButtonType> result = dialog.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                northCount = Integer.parseInt(northField.getText());
+                southCount = Integer.parseInt(southField.getText());
+                eastCount = Integer.parseInt(eastField.getText());
+                westCount = Integer.parseInt(westField.getText());
+
+                showSimulationControls();
+
+                Alert info = new Alert(Alert.AlertType.INFORMATION);
+                info.setHeaderText("Veriler Alındı");
+                info.setContentText("North: " + northCount + "\nSouth: " + southCount +
+                        "\nEast: " + eastCount + "\nWest: " + westCount);
+                info.showAndWait();
+
+            } catch (NumberFormatException ex) {
+                showError("Geçerli sayılar giriniz!");
+            }
+        }
+    }
+
+    private void generateRandomCounts() {
         Random rand = new Random();
-        northField.setText(String.valueOf(rand.nextInt(10) + 1));
-        southField.setText(String.valueOf(rand.nextInt(10) + 1));
-        eastField.setText(String.valueOf(rand.nextInt(10) + 1));
-        westField.setText(String.valueOf(rand.nextInt(10) + 1));
+        northCount = rand.nextInt(10) + 1;
+        southCount = rand.nextInt(10) + 1;
+        eastCount = rand.nextInt(10) + 1;
+        westCount = rand.nextInt(10) + 1;
+
+        showSimulationControls();
+
+        Alert info = new Alert(Alert.AlertType.INFORMATION);
+        info.setHeaderText("Rastgele Değerler Atandı");
+        info.setContentText("North: " + northCount + "\nSouth: " + southCount +
+                "\nEast: " + eastCount + "\nWest: " + westCount);
+        info.showAndWait();
     }
 
-    // Manuel girilen değerleri okutuyoruz
     private void applyCounts() {
-        int north = Integer.parseInt(northField.getText());
-        int south = Integer.parseInt(southField.getText());
-        int east = Integer.parseInt(eastField.getText());
-        int west = Integer.parseInt(westField.getText());
+        System.out.println("Simülasyon Başlatıldı:");
+        System.out.println("North: " + northCount);
+        System.out.println("South: " + southCount);
+        System.out.println("East: " + eastCount);
+        System.out.println("West: " + westCount);
 
-        // Burada bu değerleri Controller'a iletebilirsin
-        System.out.println("Manuel Giriş:");
-        System.out.println("North: " + north);
-        System.out.println("South: " + south);
-        System.out.println("East: " + east);
-        System.out.println("West: " + west);
+        // Controller’a veri iletimi yapılabilir burada
+    }
+
+    private void resetEvent() {
+        northCount = 0;
+        southCount = 0;
+        eastCount = 0;
+        westCount = 0;
+
+        applyButton.setVisible(false);
+        resetButton.setVisible(false);
+        stopButton.setVisible(false);
+        continueButton.setVisible(false);
+    }
+
+    private void stopEvent() {
+        System.out.println("Simülasyon durduruldu.");
+    }
+
+    private void continueEvent() {
+        System.out.println("Simülasyon devam etti.");
+    }
+
+    private void showSimulationControls() {
+        applyButton.setVisible(true);
+        resetButton.setVisible(true);
+        stopButton.setVisible(true);
+        continueButton.setVisible(true);
+    }
+
+    private void showError(String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("Hata");
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 
     // Getter metodlar (Controller bu değerleri isterse kullanabilir)
-    public int getNorthCount() { return Integer.parseInt(northField.getText()); }
-    public int getSouthCount() { return Integer.parseInt(southField.getText()); }
-    public int getEastCount() { return Integer.parseInt(eastField.getText()); }
-    public int getWestCount() { return Integer.parseInt(westField.getText()); }
-
+    public int getNorthCount() { return northCount; }
+    public int getSouthCount() { return southCount; }
+    public int getEastCount() { return eastCount; }
+    public int getWestCount() { return westCount; }
 }
