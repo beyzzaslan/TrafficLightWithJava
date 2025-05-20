@@ -1,4 +1,7 @@
 package com.example.trafficlightwithjava.model;
 
-public class IsıkDurumTipi {
+public enum IsıkDurumTipi {
+    RED,
+    YELLOW,
+    GREEN
 }
