@@ -3,7 +3,7 @@ package com.example.trafficlightwithjava.model;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Yon {
+    public class Yon {
     String yonAdi;
     AracYogunlugu aracYogunlugu;
     Queue<Araba> arabalar;

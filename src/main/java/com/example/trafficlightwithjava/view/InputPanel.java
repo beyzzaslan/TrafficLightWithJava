@@ -2,30 +2,34 @@ package com.example.trafficlightwithjava.view;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.util.Pair;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 import java.util.Optional;
 import java.util.Random;
 
 public class InputPanel extends VBox {
+    //Burada butonları tanımlıyorum
+    Button manualButton;
+    Button randomButton;
+    Button applyButton;
+    Button resetButton;
+    Button stopButton;
+    Button continueButton;
 
-    private Button manualButton;
-    private Button randomButton;
-    private Button applyButton;
-    private Button resetButton;
-    private Button stopButton;
-    private Button continueButton;
+    //her yönden gelen araç sayısını değişken olarak yazdım
+    int northCount, southCount, eastCount, westCount;
 
-    private int northCount, southCount, eastCount, westCount;
+    //şimdi ekran başlayınca olacak olaylar için constructor yazıyoruz
 
     public InputPanel() {
+
+        //this dicez yani bu input panelin genişliği anlamında
         this.setPrefWidth(300);
         this.setPadding(new Insets(10));
         this.setSpacing(10);
 
         Label title = new Label("Araç Yoğunluğu Girişi");
-
         manualButton = new Button("Manuel Giriş");
         randomButton = new Button("Rastgele Giriş");
 
@@ -34,12 +38,14 @@ public class InputPanel extends VBox {
         stopButton = new Button("Stop");
         continueButton = new Button("Devam Et");
 
+        //ilk başta bunlar görünmüyor
         applyButton.setVisible(false);
         resetButton.setVisible(false);
         stopButton.setVisible(false);
         continueButton.setVisible(false);
 
-        manualButton.setOnAction(e -> openManualDialog());
+        //butona basıncaki handler eventler içinse
+        manualButton.setOnAction(e -> openManuelDialog());
         randomButton.setOnAction(e -> generateRandomCounts());
 
         applyButton.setOnAction(e -> applyCounts());
@@ -47,40 +53,43 @@ public class InputPanel extends VBox {
         stopButton.setOnAction(e -> stopEvent());
         continueButton.setOnAction(e -> continueEvent());
 
+        //buton ve başlıkları ekledik inputpanele
         this.getChildren().addAll(title, manualButton, randomButton, applyButton, resetButton, stopButton, continueButton);
+
     }
 
-    private void openManualDialog() {
+    private void openManuelDialog() {
+        //burda popup yapıyoruz
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Manuel Giriş");
 
         GridPane grid = new GridPane();
         grid.setVgap(10);
         grid.setHgap(10);
-
+        //grid içindeki textFieldleri oluşturuyoruz
         TextField northField = new TextField();
         TextField southField = new TextField();
         TextField eastField = new TextField();
         TextField westField = new TextField();
-
-        grid.addRow(0, new Label("North:"), northField);
-        grid.addRow(1, new Label("South:"), southField);
+        //oluşturduğumuz textFieldleri grid içine ekliyoruz
+        grid.addRow(0, new Label("North"), northField);
+        grid.addRow(1, new Label("South"), southField);
         grid.addRow(2, new Label("East:"), eastField);
         grid.addRow(3, new Label("West:"), westField);
-
+        //dialog içine butonları VE gridi ekliyoruz
         dialog.getDialogPane().setContent(grid);
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
+                //kullanıcının yazdığı metni ınt e cevirir
                 northCount = Integer.parseInt(northField.getText());
                 southCount = Integer.parseInt(southField.getText());
                 eastCount = Integer.parseInt(eastField.getText());
                 westCount = Integer.parseInt(westField.getText());
 
                 showSimulationControls();
-
                 Alert info = new Alert(Alert.AlertType.INFORMATION);
                 info.setHeaderText("Veriler Alındı");
                 info.setContentText("North: " + northCount + "\nSouth: " + southCount +
@@ -88,7 +97,8 @@ public class InputPanel extends VBox {
                 info.showAndWait();
 
             } catch (NumberFormatException ex) {
-                showError("Geçerli sayılar giriniz!");
+                showError("Geçerli sayılar giriniz");
+
             }
         }
     }
@@ -110,17 +120,11 @@ public class InputPanel extends VBox {
     }
 
     private void applyCounts() {
-        System.out.println("Simülasyon Başlatıldı:");
-        System.out.println("North: " + northCount);
-        System.out.println("South: " + southCount);
-        System.out.println("East: " + eastCount);
-        System.out.println("West: " + westCount);
-
-        // Controller’a veri iletimi yapılabilir burada
+        System.out.println("Simülasyon başlatıldı.");
     }
 
-    private void resetEvent() {
-        northCount = 0;
+    private void resetEvent(){
+        northCount=0;
         southCount = 0;
         eastCount = 0;
         westCount = 0;
@@ -138,7 +142,7 @@ public class InputPanel extends VBox {
     private void continueEvent() {
         System.out.println("Simülasyon devam etti.");
     }
-
+    //butonları görünür hale getiriyor
     private void showSimulationControls() {
         applyButton.setVisible(true);
         resetButton.setVisible(true);
@@ -146,16 +150,28 @@ public class InputPanel extends VBox {
         continueButton.setVisible(true);
     }
 
-    private void showError(String msg) {
+    private void showError(String msg ){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText("Hata");
         alert.setContentText(msg);
         alert.showAndWait();
     }
 
-    // Getter metodlar (Controller bu değerleri isterse kullanabilir)
-    public int getNorthCount() { return northCount; }
-    public int getSouthCount() { return southCount; }
-    public int getEastCount() { return eastCount; }
-    public int getWestCount() { return westCount; }
+    // Getter metodlar (Controller bu değerleri isterse kullanabilir yani  dışarıdan erişilebilir olmasını sağlıyoruz.)
+    public int getNorthCount() {
+        return northCount;
+    }
+
+    public int getSouthCount() {
+        return southCount;
+    }
+
+    public int getEastCount() {
+        return eastCount;
+    }
+
+    public int getWestCount() {
+        return westCount;
+    }
+
 }
