@@ -83,11 +83,19 @@ public class InputPanel extends VBox {
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-                //kullanıcının yazdığı metni ınt e cevirir
                 northCount = Integer.parseInt(northField.getText());
                 southCount = Integer.parseInt(southField.getText());
                 eastCount = Integer.parseInt(eastField.getText());
                 westCount = Integer.parseInt(westField.getText());
+
+                // Aralık kontrolü
+                if (northCount < 1 || northCount > 10 ||
+                        southCount < 1 || southCount > 10 ||
+                        eastCount < 1 || eastCount > 10 ||
+                        westCount < 1 || westCount > 10) {
+                    showError("Tüm sayılar 1 ile 10 arasında ve 10 dahil olmalıdır.");
+                    return;
+                }
 
                 showSimulationControls();
                 Alert info = new Alert(Alert.AlertType.INFORMATION);
@@ -98,9 +106,9 @@ public class InputPanel extends VBox {
 
             } catch (NumberFormatException ex) {
                 showError("Geçerli sayılar giriniz");
-
             }
         }
+
     }
 
     private void generateRandomCounts() {
