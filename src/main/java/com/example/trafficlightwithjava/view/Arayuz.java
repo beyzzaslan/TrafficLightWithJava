@@ -21,8 +21,8 @@ public class Arayuz {
         centerPane.setAlignment(Pos.CENTER);
         root.setCenter(intersectionView);
     }
-
     public Parent getRoot() {
         return root;
     }
+
 }
