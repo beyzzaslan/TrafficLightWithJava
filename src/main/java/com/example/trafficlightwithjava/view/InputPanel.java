@@ -2,7 +2,9 @@ package com.example.trafficlightwithjava.view;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.Optional;
@@ -19,6 +21,8 @@ public class InputPanel extends VBox {
 
     //her yönden gelen araç sayısını değişken olarak yazdım
     int northCount, southCount, eastCount, westCount;
+
+    private HBox controlButtonsBox;
 
     //şimdi ekran başlayınca olacak olaylar için constructor yazıyoruz
 
@@ -38,11 +42,15 @@ public class InputPanel extends VBox {
         stopButton = new Button("Stop");
         continueButton = new Button("Devam Et");
 
-        //ilk başta bunlar görünmüyor
-        applyButton.setVisible(false);
-        resetButton.setVisible(false);
-        stopButton.setVisible(false);
-        continueButton.setVisible(false);
+        // Üst kısım: Başlık ve giriş butonları
+        VBox topPanel = new VBox(10);
+        topPanel.getChildren().addAll(title, manualButton, randomButton);
+        // Kontrol butonlarını yatay yerleştirmek için HBox
+
+        controlButtonsBox = new HBox(10);
+        controlButtonsBox.getChildren().addAll(applyButton, resetButton, stopButton, continueButton);
+        controlButtonsBox.setVisible(false);
+
 
         //butona basıncaki handler eventler içinse
         manualButton.setOnAction(e -> openManuelDialog());
@@ -53,9 +61,18 @@ public class InputPanel extends VBox {
         stopButton.setOnAction(e -> stopEvent());
         continueButton.setOnAction(e -> continueEvent());
 
-        //buton ve başlıkları ekledik inputpanele
-        this.getChildren().addAll(title, manualButton, randomButton, applyButton, resetButton, stopButton, continueButton);
 
+        // Ortak layout: BorderPane ile düzenle
+        BorderPane layout = new BorderPane();
+        layout.setPadding(new Insets(10, 10, 10, 10));
+        layout.setStyle("-fx-border-color: blue; -fx-border-width: 2px; -fx-border-style: dotted;");
+        BorderPane.setAlignment(controlButtonsBox, javafx.geometry.Pos.TOP_CENTER);
+        layout.setTop(topPanel);
+        layout.setBottom(controlButtonsBox);
+        BorderPane.setMargin(controlButtonsBox, new Insets(5, 0, 0, 0));
+
+        //buton ve başlıkları ekledik inputpanele
+        this.getChildren().add(layout);
     }
 
     private void openManuelDialog() {
@@ -81,7 +98,9 @@ public class InputPanel extends VBox {
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
         Optional<ButtonType> result = dialog.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (result.isPresent() && result.get() == ButtonType.OK)
+        //acaba burda OK a basınca mı animasyonlar oynamaya başlayacak
+        {
             try {
                 northCount = Integer.parseInt(northField.getText());
                 southCount = Integer.parseInt(southField.getText());
@@ -89,11 +108,11 @@ public class InputPanel extends VBox {
                 westCount = Integer.parseInt(westField.getText());
 
                 // Aralık kontrolü
-                if (northCount < 1 || northCount > 10 ||
-                        southCount < 1 || southCount > 10 ||
-                        eastCount < 1 || eastCount > 10 ||
-                        westCount < 1 || westCount > 10) {
-                    showError("Tüm sayılar 1 ile 10 arasında ve 10 dahil olmalıdır.");
+                if (northCount < 1 || northCount > 100 ||
+                        southCount < 1 || southCount > 100 ||
+                        eastCount < 1 || eastCount > 100 ||
+                        westCount < 1 || westCount > 100) {
+                    showError("Tüm sayılar 1 ile 100 arasında ve 100 dahil olmalıdır.");
                     return;
                 }
 
@@ -113,10 +132,10 @@ public class InputPanel extends VBox {
 
     private void generateRandomCounts() {
         Random rand = new Random();
-        northCount = rand.nextInt(10) + 1;
-        southCount = rand.nextInt(10) + 1;
-        eastCount = rand.nextInt(10) + 1;
-        westCount = rand.nextInt(10) + 1;
+        northCount = rand.nextInt(100) + 1;
+        southCount = rand.nextInt(100) + 1;
+        eastCount = rand.nextInt(100) + 1;
+        westCount = rand.nextInt(100) + 1;
 
         showSimulationControls();
 
@@ -131,8 +150,8 @@ public class InputPanel extends VBox {
         System.out.println("Simülasyon başlatıldı.");
     }
 
-    private void resetEvent(){
-        northCount=0;
+    private void resetEvent() {
+        northCount = 0;
         southCount = 0;
         eastCount = 0;
         westCount = 0;
@@ -141,6 +160,7 @@ public class InputPanel extends VBox {
         resetButton.setVisible(false);
         stopButton.setVisible(false);
         continueButton.setVisible(false);
+        controlButtonsBox.setVisible(false);
     }
 
     private void stopEvent() {
@@ -150,15 +170,18 @@ public class InputPanel extends VBox {
     private void continueEvent() {
         System.out.println("Simülasyon devam etti.");
     }
+
     //butonları görünür hale getiriyor
     private void showSimulationControls() {
         applyButton.setVisible(true);
         resetButton.setVisible(true);
         stopButton.setVisible(true);
         continueButton.setVisible(true);
+        controlButtonsBox.setVisible(true);
+
     }
 
-    private void showError(String msg ){
+    private void showError(String msg) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText("Hata");
         alert.setContentText(msg);

@@ -33,7 +33,7 @@ public class Araba {
     }
     public void hareketEt()
     {
-        //....
+        //....fghyuujıdekopodhgfhdejklşklfjbhgdjenklşedfkjkhbgjdnkl
     }
 
 }

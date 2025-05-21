@@ -59,12 +59,7 @@ public class IntersectionView extends Pane {
                 verticalLine, horizontalLine,
                 northLight, southLight, westLight, eastLight
         );
-        // Araçları oluştur ve sahneye ekle
-        VehicleView car1 = new VehicleView(Direction.NORTH);
-        VehicleView car2 = new VehicleView(Direction.EAST);
 
-
-        this.getChildren().addAll(car1, car2);
     }
 
     private Group createTrafficLight(double x, double y) {
