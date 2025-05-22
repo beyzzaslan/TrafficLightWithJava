@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.Group;
-import com.example.trafficlightwithjava.view.Direction;
+
 
 public class IntersectionView extends Pane {
 
@@ -14,65 +14,70 @@ public class IntersectionView extends Pane {
         this.setPrefSize(700, 700);
 
         // 2. Kavşağın merkezindeki açık gri kutu (kesim alanı)
+        // x=290, y=290'dan başlayarak 120x120 boyutunda olacak şekilde ortalanmış
         Rectangle center = new Rectangle(290, 290, 120, 120);
         center.setFill(Color.WHITE);
         center.setStrokeWidth(2);
 
-        // Kuzey yolu
+        //  (kuzey) yolu –
+        // x=320, y=0'dan başlayarak 60 piksel genişlikte ve 290 piksel yükseklikte bir dikdörtgen
         Rectangle northRoad = new Rectangle(320, 0, 60, 290);
         northRoad.setFill(Color.DARKGRAY);
 
-        // Güney yolu
+        // (güney)
         Rectangle southRoad = new Rectangle(320, 410, 60, 290);
         southRoad.setFill(Color.DARKGRAY);
 
-        // Batı yolu
+        //  (batı) yolu
         Rectangle westRoad = new Rectangle(0, 320, 290, 60);
         westRoad.setFill(Color.DARKGRAY);
 
-        // Doğu yolu
+        // (doğu) yolu –
         Rectangle eastRoad = new Rectangle(410, 320, 290, 60);
         eastRoad.setFill(Color.DARKGRAY);
 
-        // Şerit çizgisi - Dikey (Kuzey-Güney)
+        // şerit çizgisi (kuzey-güney )
+        // Ortada x=350 boyunca baştan sona kadar bir çizgi
         Line verticalLine = new Line(350, 0, 350, 700);
-        verticalLine.setStroke(Color.WHITE);
-        verticalLine.setStrokeWidth(1.5);
-        verticalLine.getStrokeDashArray().addAll(10.0, 10.0);
+        verticalLine.setStroke(Color.WHITE); // çizgi rengi beyaz
+        verticalLine.setStrokeWidth(1.5);     // kalınlık
+        verticalLine.getStrokeDashArray().addAll(10.0, 10.0); // kesikli çizgi
 
-        // Şerit çizgisi - Yatay (Batı-Doğu)
+        //  Yatay şerit çizgisi batı-doğu
         Line horizontalLine = new Line(0, 350, 700, 350);
         horizontalLine.setStroke(Color.WHITE);
         horizontalLine.setStrokeWidth(1.5);
         horizontalLine.getStrokeDashArray().addAll(10.0, 10.0);
 
-        // Trafik ışıkları (her yön için pozisyonları ayarlamalısın)
-        Group northLight = createTrafficLight(330, 270); // yukarı
-        Group southLight = createTrafficLight(330, 420); // aşağı
-        Group westLight = createTrafficLight(270, 330);  // sol
-        Group eastLight = createTrafficLight(420, 330);  // sağ
+        //trafik ışıkları
+        Group northLight = createTrafficLight(200, 250);
+        Group southLight = createTrafficLight(200, 250);
+        Group westLight = createTrafficLight(200, 250);
+        Group eastlight = createTrafficLight(200, 250);
+
 
         // Tüm bileşenleri sahneye ekle
+        // Önce yollar, sonra kavşak, en üste çizgiler ekleniyor
         this.getChildren().addAll(
-                northRoad, southRoad, westRoad, eastRoad,
-                center,
-                verticalLine, horizontalLine,
-                northLight, southLight, westLight, eastLight
+                northRoad, southRoad, westRoad, eastRoad, // Yollar
+                center,                                    // Ortadaki kavşak
+                verticalLine, horizontalLine,// Şerit çizgileri
+                northLight, southLight, westLight, eastlight
         );
 
     }
 
-    private Group createTrafficLight(double x, double y) {
+    private Group createTrafficLight(double x,double y) {
         Rectangle red = new Rectangle(x, y, 10, 10);
-        red.setFill(Color.RED);
+        red.setFill(Color.RED);//kırmızı ışık
 
         Rectangle yellow = new Rectangle(x + 12, y, 10, 10);
         yellow.setFill(Color.YELLOW);
 
         Rectangle green = new Rectangle(x + 24, y, 10, 10);
-        green.setFill(Color.GREEN);
+        yellow.setFill(Color.GREEN);
+        return new Group(red, green, yellow);
 
-        return new Group(red, yellow, green);
     }
 
 }
