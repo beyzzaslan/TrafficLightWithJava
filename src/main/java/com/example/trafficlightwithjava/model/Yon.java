@@ -4,22 +4,22 @@ import java.util.LinkedList;
 import java.util.Queue;
 
     public class Yon {
-    String yonAdi;
+    YonTipi yonTipi;
     AracYogunlugu aracYogunlugu;
     Queue<Araba> arabalar;
 
-    public Yon(String yonAdi){
-        this.yonAdi = yonAdi;
+    public Yon(YonTipi yonTipi){
+        this.yonTipi = yonTipi;
         this.aracYogunlugu=new AracYogunlugu(0);
         this.arabalar=new LinkedList<>();
     }
 
-    public String getYonAdi() {
-        return yonAdi;
+    public YonTipi getYonTipi() {
+        return yonTipi;
     }
 
-    public void setYonAdi(String yonAdi) {
-        this.yonAdi = yonAdi;
+    public void setYonTipi(YonTipi yonTipi) {
+        this.yonTipi = yonTipi;
     }
 
     public AracYogunlugu getAracYogunlugu() {
@@ -39,5 +39,13 @@ import java.util.Queue;
     public int getArabaSayisi(){
         return this.arabalar.size();
     }
-    //?
+    public Queue<Araba> getArabalar(){return this.arabalar;}
+    public void tumArabalariTemizle(){
+        this.arabalar.clear();
+        this.aracYogunlugu.setSayi(0);
+    }
+
+
+
+
 }

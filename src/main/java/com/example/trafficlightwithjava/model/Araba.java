@@ -1,14 +1,16 @@
 package com.example.trafficlightwithjava.model;
 
 public class Araba {
-    Yon yon;
-    int hiz;
+    YonTipi yon;
+    double hiz;
     Konum konum;
+    boolean kavsaktaMi;
 
-    public Araba(Yon yon) {
+    public Araba(YonTipi yon,Konum baslangicKonumu) {
         this.yon = yon;
-        this.hiz = 0;
-        this.konum = new Konum(0,0);
+        this.hiz = 0.0;//?emin değilim
+        this.konum =baslangicKonumu;
+        kavsaktaMi=true;
     }
     public Konum getKonum() {
         return konum;
@@ -17,23 +19,26 @@ public class Araba {
         this.konum = konum;
     }
 
-    public void setYon(Yon yon) {
+    public void setYon(YonTipi yon) {
         this.yon = yon;
     }
 
-    public Yon getYon() {
+    public YonTipi getYon() {
         return yon;
     }
 
     public void setHiz(int hiz) {
         this.hiz = hiz;
     }
-    public int getHiz() {
+    public double getHiz() {
         return hiz;
     }
     public void hareketEt()
     {
-        //....fghyuujıdekopodhgfhdejklşklfjbhgdjenklşedfkjkhbgjdnkl
     }
+    public void setKavsaktaMi(boolean kavsaktaMi){
+        this.kavsaktaMi = kavsaktaMi;
+    }
+    public boolean getKavsaktaMi(){return kavsaktaMi;}
 
 }
