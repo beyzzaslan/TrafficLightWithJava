@@ -1,28 +1,47 @@
 package com.example.trafficlightwithjava.view;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 
 public class Arayuz {
 
-    private BorderPane root;
+    private StackPane root;
 
     public Arayuz() {
-        root = new BorderPane();
+        // Root StackPane — her şeyi üst üste yerleştirir
+        root = new StackPane();
 
-        // Kavşak görüntüsü (ortaya yerleştir)
+        // === 1. Arka plan: Çim resmi ===
+        BackgroundImage grassBg = new BackgroundImage(
+                new Image(getClass().getResource("/com/example/trafficlightwithjava/cim.png").toExternalForm()),
+                BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
+                BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT
+                //REPEAT sayesinde küçük bir çim görseli tüm sahneye yayılır.
+        );
+        root.setBackground(new Background(grassBg));
+
+        // === 2. Ortadaki Kavşak ===
         IntersectionView intersectionView = new IntersectionView();
-        // Ortalamak için StackPane içine alıyoruz
+
+        // === 3. Sağ üst köşeye yerleşecek InputPanel ===
         InputPanel inputPanel = new InputPanel();
-        root.setRight(inputPanel);
-        StackPane centerPane = new StackPane(intersectionView);
-        centerPane.setAlignment(Pos.CENTER);
-        root.setCenter(intersectionView);
+        inputPanel.setMaxWidth(300);
+
+        BorderPane overlay = new BorderPane();
+        overlay.setPickOnBounds(false);
+        overlay.setTop(inputPanel);
+        BorderPane.setAlignment(inputPanel, Pos.TOP_RIGHT);
+        BorderPane.setMargin(inputPanel, new Insets(10));
+//PickOnBounds(false) demek: görünmeyen yerlerden tıklamayı engelleme, yani alt katmanla etkileşimi sürdür.
+
+        // === Her şeyi root StackPane'e ekle ===
+        root.getChildren().addAll(intersectionView, overlay);
     }
+
     public Parent getRoot() {
         return root;
     }
-
 }
