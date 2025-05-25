@@ -25,6 +25,14 @@ public class Konum {
 
         this.y = y;
     }
+    public double mesafeHesapla(Konum digerKonum) {
+        if (digerKonum == null) {
+            throw new IllegalArgumentException("Mesafe hesaplanacak diğer konum null olamaz.");
+        }
+        double deltaX = this.x - digerKonum.x;
+        double deltaY = this.y - digerKonum.y;
+        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
     @Override
     public String toString() {
         return "Konum("+x+","+y+")";

@@ -11,9 +11,9 @@ public class Araba {
     public Araba(YonTipi yon,Konum baslangicKonumu) {
         this.id=nextID++;
         this.yon = yon;
-        this.hiz = 1.0;//?emin değilim
+        this.hiz = 80.0;//?emin değilim
         this.konum =baslangicKonumu;
-        kavsaktaMi=true;
+        kavsaktaMi=false;
     }
     public int getId(){
         return id;
@@ -43,27 +43,28 @@ public class Araba {
     public boolean getKavsaktaMi(){
         return kavsaktaMi;
     }
-    public void hareketEt()
+    public void hareketEt(double gecenSure)
     {
         if(this.hiz==0.0)
             return;
+        double katedilenMesafe=this.hiz*gecenSure;
         switch(this.yon){
             case KUZEY :
-                this.konum.setY(this.konum.getY()-this.hiz);
+                this.konum.setY(this.konum.getY()+katedilenMesafe);
                 break;
-            case GÜNEY:
-                this.konum.setY(konum.getY()+this.hiz);
+            case GUNEY:
+                this.konum.setY(konum.getY()-katedilenMesafe);
                 break;
-            case DOĞU:
-                this.konum.setX(konum.getX()+this.hiz);
+            case DOGU:
+                this.konum.setX(konum.getX()-katedilenMesafe);
                 break;
             case BATI:
-                this.konum.setX(konum.getX()-this.hiz);
+                this.konum.setX(konum.getX()+katedilenMesafe);
                 break;
         }
     }
     @Override
     public String toString() {
-        return "Araba[ID="+id+",Yön="+yon+",Hız="+hiz+",Konum="+konum+",Kavşakta mı="+kavsaktaMi+"]";
+        return "Araba[ID="+id+",Yön="+yon+",Hız="+hiz+",Konum="+konum.toString()+",Kavşakta mı="+kavsaktaMi+"]";
     }
 }
