@@ -17,35 +17,35 @@ import java.util.Queue;
     public YonTipi getYonTipi() {
         return yonTipi;
     }
-
     public void setYonTipi(YonTipi yonTipi) {
         this.yonTipi = yonTipi;
     }
-
     public AracYogunlugu getAracYogunlugu() {
         return aracYogunlugu;
     }
-
     public void setAracYogunlugu(AracYogunlugu yogunluk) {
         this.aracYogunlugu = yogunluk;
     }
-
     public void arabaEkle(Araba araba){
-        this.arabalar.add(araba);
+        this.arabalar.offer(araba);
+        this.aracYogunlugu.setSayi(this.arabalar.size());//yoğunluğu otomatik güncellemek için
     }
     public Araba arabaCikar(){
-        return this.arabalar.poll();
+        Araba cikanAraba=this.arabalar.poll();
+        this.aracYogunlugu.setSayi(this.arabalar.size()); // Yoğunluğu otomatik günceller
+        return cikanAraba;
     }
     public int getArabaSayisi(){
         return this.arabalar.size();
     }
-    public Queue<Araba> getArabalar(){return this.arabalar;}
+    public Queue<Araba> getArabalar(){
+        return this.arabalar;}
     public void tumArabalariTemizle(){
         this.arabalar.clear();
         this.aracYogunlugu.setSayi(0);
     }
-
-
-
-
+    @Override
+    public String toString(){
+        return "Yon[tip="+yonTipi+",yoğunluk="+aracYogunlugu.getSayi()+",arabaSayisi="+arabalar.size()+"]";
+    }
 }
