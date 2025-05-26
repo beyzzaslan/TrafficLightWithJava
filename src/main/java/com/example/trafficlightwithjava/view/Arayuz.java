@@ -5,43 +5,66 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import java.util.Map;
+import java.util.Random;
 
 public class Arayuz {
 
     private StackPane root;
+    private final Random random = new Random();
 
     public Arayuz() {
-        // Root StackPane — her şeyi üst üste yerleştirir
         root = new StackPane();
 
-        // === 1. Arka plan: Çim resmi ===
+        // Arka plan çim
         BackgroundImage grassBg = new BackgroundImage(
                 new Image(getClass().getResource("/com/example/trafficlightwithjava/cim.png").toExternalForm()),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
                 BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT
-                //REPEAT sayesinde küçük bir çim görseli tüm sahneye yayılır.
         );
         root.setBackground(new Background(grassBg));
 
-        // === 2. Ortadaki Kavşak ===
+        // Kavşak görünümü
         IntersectionView intersectionView = new IntersectionView();
 
-        // === 3. Sağ üst köşeye yerleşecek InputPanel ===
+        // Sağ üst köşe için InputPanel
         InputPanel inputPanel = new InputPanel();
         inputPanel.setMaxWidth(300);
-
         BorderPane overlay = new BorderPane();
         overlay.setPickOnBounds(false);
         overlay.setTop(inputPanel);
         BorderPane.setAlignment(inputPanel, Pos.TOP_RIGHT);
         BorderPane.setMargin(inputPanel, new Insets(10));
-//PickOnBounds(false) demek: görünmeyen yerlerden tıklamayı engelleme, yani alt katmanla etkileşimi sürdür.
 
-        // === Her şeyi root StackPane'e ekle ===
+        // === applyButton'dan gelen değerlerle test arabası oluştur ===
+        inputPanel.setOnApplyListener(countMap -> {
+            intersectionView.getArabaKatmani().getChildren().clear();
+
+            // Test arabası - ekran ortasına yakın sabit pozisyon
+            ArabaView testAraba = new ArabaView(Color.RED, 485, 300);
+            intersectionView.getArabaKatmani().getChildren().add(testAraba);
+
+            System.out.println("Test arabası eklendi");
+        });
+
         root.getChildren().addAll(intersectionView, overlay);
     }
 
     public Parent getRoot() {
         return root;
     }
+
+    private Color getRandomColor() {
+        Color[] renkler = {
+                Color.RED, Color.BLUE, Color.MEDIUMPURPLE, Color.DARKCYAN,
+                Color.DEEPPINK, Color.GREENYELLOW, Color.BROWN, Color.LIGHTSKYBLUE
+        };
+        return renkler[random.nextInt(renkler.length)];
+    }
 }
+
+
+
+
+

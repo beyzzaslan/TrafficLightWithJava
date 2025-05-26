@@ -13,13 +13,13 @@ public class IntersectionView extends StackPane {
     private final int HEIGHT = 1000;
     private final int ROAD_WIDTH = 100;
 
-    // Trafik ışıkları
     private TrafficLight lightNorth, lightSouth, lightEast, lightWest;
+    private Group arabaKatmani;
 
     public IntersectionView() {
         this.setPrefSize(WIDTH, HEIGHT);
 
-        // Çim arka planı
+        // Arka plan (çim)
         BackgroundImage grassBg = new BackgroundImage(
                 new Image(getClass().getResource("/com/example/trafficlightwithjava/cim.png").toExternalForm(), WIDTH, HEIGHT, false, true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
@@ -27,9 +27,9 @@ public class IntersectionView extends StackPane {
         );
         this.setBackground(new Background(grassBg));
 
+        // Kavşak çizimleri grubu
         Group intersection = new Group();
 
-        // Ortalamak için merkez noktaları
         int centerX = WIDTH / 2;
         int centerY = HEIGHT / 2;
 
@@ -56,24 +56,33 @@ public class IntersectionView extends StackPane {
         horizontalLine.setStrokeWidth(2);
         horizontalLine.getStrokeDashArray().addAll(20.0, 20.0);
 
-        lightNorth = new TrafficLight(centerX - 80, centerY - 200, false);  // çim alana dışarı alındı
-        lightSouth = new TrafficLight(centerX + 50, centerY + 100, false);  // aşağıda çim alana alındı
-        lightEast  = new TrafficLight(centerX + 125, centerY - 105, true);    // aynı kalsın
-        lightWest  = new TrafficLight(centerX - 170, centerY + 25, true);   // aynı kalsın
+        // Trafik ışıkları
+        lightNorth = new TrafficLight(centerX - 80, centerY - 200, false);
+        lightSouth = new TrafficLight(centerX + 50, centerY + 100, false);
+        lightEast  = new TrafficLight(centerX + 125, centerY - 105, true);
+        lightWest  = new TrafficLight(centerX - 170, centerY + 25, true);
 
-        // Işıkları intersection’a ekle
         intersection.getChildren().addAll(
                 verticalRoad, horizontalRoad,
                 verticalLine, horizontalLine,
                 lightNorth, lightSouth, lightEast, lightWest
         );
 
-        this.getChildren().add(intersection);
+        // Arabaların çizileceği ayrı katman
+        arabaKatmani = new Group();
 
-        // Örnek ışık durumu (kuzey yeşil, diğerleri kırmızı)
+        // Katmanları sırayla ekle
+        this.getChildren().addAll(intersection, arabaKatmani);
+
+        // Işık durumları (varsayılan)
         lightNorth.setState("green");
         lightSouth.setState("red");
         lightEast.setState("red");
         lightWest.setState("red");
+    }
+
+    // Araba katmanını dışarıya verir
+    public Group getArabaKatmani() {
+        return arabaKatmani;
     }
 }
