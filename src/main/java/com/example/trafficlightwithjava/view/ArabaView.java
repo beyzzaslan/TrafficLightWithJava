@@ -71,4 +71,3 @@ public class ArabaView extends Pane {
         this.setLayoutY(baslangicY);
     }
 }
-
