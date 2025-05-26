@@ -9,6 +9,7 @@ public class TrafficLight extends Group {
     private final Circle red;
     private final Circle yellow;
     private final Circle green;
+    private final TimerDisplay timerDisplay;
 
     public TrafficLight(double x, double y, boolean rotate90) {
         double width = 30;
@@ -24,7 +25,6 @@ public class TrafficLight extends Group {
         yellow = new Circle(radius, Color.DARKGOLDENROD);
         green = new Circle(radius, Color.DARKGREEN);
 
-        // Paddingli şekilde yerleştir
         double paddingTop = 15;
         double spaceBetween = 25;
 
@@ -37,7 +37,11 @@ public class TrafficLight extends Group {
         green.setCenterX(width / 2);
         green.setCenterY(paddingTop + 2 * spaceBetween);
 
-        this.getChildren().addAll(body, red, yellow, green);
+        timerDisplay = new TimerDisplay();
+        timerDisplay.setLayoutX(width / 2 - 10);
+        timerDisplay.setLayoutY(height + 5);
+
+        this.getChildren().addAll(body, red, yellow, green, timerDisplay);
         this.setLayoutX(x);
         this.setLayoutY(y);
 
@@ -46,17 +50,17 @@ public class TrafficLight extends Group {
         }
     }
 
-    public void setState(String color) {
-        // önce hepsini sönük yap
+    public void updateState(String color, int seconds) {
         red.setFill(Color.DARKRED);
         yellow.setFill(Color.DARKGOLDENROD);
         green.setFill(Color.DARKGREEN);
 
-        // sonra sadece biri aktif parlak olsun
         switch (color.toLowerCase()) {
             case "red" -> red.setFill(Color.RED);
             case "yellow" -> yellow.setFill(Color.YELLOW);
             case "green" -> green.setFill(Color.LIMEGREEN);
         }
+
+        timerDisplay.setTime(seconds, color);
     }
 }

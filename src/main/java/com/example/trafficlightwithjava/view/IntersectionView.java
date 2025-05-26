@@ -66,13 +66,29 @@ public class IntersectionView extends StackPane {
 
         this.getChildren().addAll(intersection, arabaKatmani);
 
-        lightNorth.setState("green");
-        lightSouth.setState("red");
-        lightEast.setState("red");
-        lightWest.setState("red");
+        lightNorth.updateState("green", 100);
+        lightSouth.updateState("red", 100);
+        lightEast.updateState("red", 100);
+        lightWest.updateState("red", 100);
     }
 
     public Group getArabaKatmani() {
         return arabaKatmani;
+    }
+
+    public TrafficLight getLightNorth() {
+        return lightNorth;
+    }
+
+    public TrafficLight getLightSouth() {
+        return lightSouth;
+    }
+
+    public TrafficLight getLightEast() {
+        return lightEast;
+    }
+
+    public TrafficLight getLightWest() {
+        return lightWest;
     }
 }

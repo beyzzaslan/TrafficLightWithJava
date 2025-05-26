@@ -6,12 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+
 import java.util.Map;
 import java.util.Random;
 
 public class Arayuz {
 
-    private StackPane root;
+    private final StackPane root;
+    private final IntersectionView intersectionView;
+    private final InputPanel inputPanel;
     private final Random random = new Random();
 
     public Arayuz() {
@@ -26,10 +29,10 @@ public class Arayuz {
         root.setBackground(new Background(grassBg));
 
         // Kavşak görünümü
-        IntersectionView intersectionView = new IntersectionView();
+        intersectionView = new IntersectionView();
 
         // Sağ üst köşe için InputPanel
-        InputPanel inputPanel = new InputPanel();
+        inputPanel = new InputPanel();
         inputPanel.setMaxWidth(300);
         BorderPane overlay = new BorderPane();
         overlay.setPickOnBounds(false);
@@ -77,6 +80,14 @@ public class Arayuz {
 
     public Parent getRoot() {
         return root;
+    }
+
+    public IntersectionView getIntersectionView() {
+        return intersectionView;
+    }
+
+    public InputPanel getInputPanel() {
+        return inputPanel;
     }
 
     private Color getRandomColor() {

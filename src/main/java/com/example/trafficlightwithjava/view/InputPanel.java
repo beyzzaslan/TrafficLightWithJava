@@ -6,6 +6,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
+import javafx.scene.paint.Color;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -25,6 +27,7 @@ public class InputPanel extends VBox {
 
     private HBox controlButtonsBox;
     private Consumer<Map<String, Integer>> onApplyListener;
+    private Runnable onStartListener; // EKLENDİ: sayaç başlatma için listener
 
     public InputPanel() {
         this.setPrefWidth(300);
@@ -48,15 +51,15 @@ public class InputPanel extends VBox {
 
         manualButton.setOnAction(e -> openManuelDialog());
         randomButton.setOnAction(e -> generateRandomCounts());
-        applyButton.setOnAction(e -> applyCounts());
+        applyButton.setOnAction(e -> applyCounts()); // sayaç burada başlatılacak
         resetButton.setOnAction(e -> resetEvent());
         stopButton.setOnAction(e -> stopEvent());
         continueButton.setOnAction(e -> continueEvent());
 
         BorderPane layout = new BorderPane();
-        layout.setPadding(new Insets(10, 10, 10, 10));
+        layout.setPadding(new Insets(10));
         layout.setStyle("-fx-border-color: blue; -fx-border-width: 2px; -fx-border-style: dotted;");
-        BorderPane.setAlignment(controlButtonsBox, javafx.geometry.Pos.TOP_CENTER);
+        BorderPane.setAlignment(controlButtonsBox, Pos.TOP_CENTER);
         layout.setTop(topPanel);
         layout.setBottom(controlButtonsBox);
         BorderPane.setMargin(controlButtonsBox, new Insets(5, 0, 0, 0));
@@ -136,6 +139,9 @@ public class InputPanel extends VBox {
         if (onApplyListener != null) {
             onApplyListener.accept(getAllCounts());
         }
+        if (onStartListener != null) {
+            onStartListener.run(); // ❗ Sayaç burada başlar
+        }
     }
 
     private void resetEvent() {
@@ -178,6 +184,10 @@ public class InputPanel extends VBox {
         this.onApplyListener = listener;
     }
 
+    public void setOnStartListener(Runnable listener) {
+        this.onStartListener = listener;
+    }
+
     public Map<String, Integer> getAllCounts() {
         Map<String, Integer> counts = new HashMap<>();
         counts.put("NORTH", northCount);
@@ -192,4 +202,3 @@ public class InputPanel extends VBox {
     public int getEastCount() { return eastCount; }
     public int getWestCount() { return westCount; }
 }
-
