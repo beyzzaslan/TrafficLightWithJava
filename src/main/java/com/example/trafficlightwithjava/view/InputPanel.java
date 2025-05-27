@@ -8,6 +8,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -38,6 +41,9 @@ public class InputPanel extends VBox {
         this.setSpacing(10);
 
         Label title = new Label("Araç Yoğunluğu Girişi");
+        title.setPadding(new Insets(10));
+        title.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 18));
+        title.setTextFill(Color.WHITE); // Yazı rengi kırmızı
         manualButton = new Button("Manuel Giriş");
         randomButton = new Button("Rastgele Giriş");
         applyButton = new Button("Başlat");
@@ -46,6 +52,7 @@ public class InputPanel extends VBox {
         continueButton = new Button("Devam Et");
 
         VBox topPanel = new VBox(10);
+        topPanel.setPadding(new Insets(10));
         topPanel.getChildren().addAll(title, manualButton, randomButton);
 
         controlButtonsBox = new HBox(10);
@@ -53,8 +60,7 @@ public class InputPanel extends VBox {
         controlButtonsBox.setVisible(false);
 
         BorderPane layout = new BorderPane();
-        layout.setPadding(new Insets(10));
-        layout.setStyle("-fx-border-color: blue; -fx-border-width: 2px; -fx-border-style: dotted;");
+        layout.setPadding(new Insets(20,20,20,20));
         BorderPane.setAlignment(controlButtonsBox, Pos.TOP_CENTER);
         layout.setTop(topPanel);
         layout.setBottom(controlButtonsBox);

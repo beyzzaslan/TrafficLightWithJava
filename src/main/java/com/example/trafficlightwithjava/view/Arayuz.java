@@ -18,7 +18,7 @@ public class Arayuz {
 
         // Arka plan çim
         BackgroundImage grassBg = new BackgroundImage(
-                new Image(getClass().getResource("/com/example/trafficlightwithjava/cim.png").toExternalForm()),
+                new Image(getClass().getResource("/com/example/trafficlightwithjava/cimm.png").toExternalForm()),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
                 BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT
         );
