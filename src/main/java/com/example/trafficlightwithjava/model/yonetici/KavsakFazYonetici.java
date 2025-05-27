@@ -108,6 +108,9 @@ public class KavsakFazYonetici {//ışıkların durum değiştirmesi
     public Kavsak getKavsak() {
         return kavsak;
     }
+    public List<Yon> getYonList() {
+        return yonler;
+    }
 
     public void simuulasyonuSifirla() {
         mevcutFazIndex = 0;
