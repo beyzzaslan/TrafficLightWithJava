@@ -1,5 +1,6 @@
 package com.example.trafficlightwithjava.view;
 
+import com.example.trafficlightwithjava.model.IsıkDurumTipi;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -37,9 +38,8 @@ public class TrafficLight extends Group {
         green.setCenterX(width / 2);
         green.setCenterY(paddingTop + 2 * spaceBetween);
 
-        timerDisplay = new TimerDisplay();
-        timerDisplay.setLayoutX(width / 2 - 10);
-        timerDisplay.setLayoutY(height + 5);
+        timerDisplay = new TimerDisplay(width / 2 - 10, height + 5); // Constructor'a x,y parametreleri eklenmiş varsayıldı
+
 
         this.getChildren().addAll(body, red, yellow, green, timerDisplay);
         this.setLayoutX(x);
@@ -50,17 +50,24 @@ public class TrafficLight extends Group {
         }
     }
 
-    public void updateState(String color, int seconds) {
+    public void updateState(IsıkDurumTipi durum) {
         red.setFill(Color.DARKRED);
         yellow.setFill(Color.DARKGOLDENROD);
         green.setFill(Color.DARKGREEN);
 
-        switch (color.toLowerCase()) {
-            case "red" -> red.setFill(Color.RED);
-            case "yellow" -> yellow.setFill(Color.YELLOW);
-            case "green" -> green.setFill(Color.LIMEGREEN);
+        switch (durum) {
+            case RED :
+                red.setFill(Color.RED);
+                break;
+            case YELLOW:
+                yellow.setFill(Color.YELLOW);
+                break;
+            case GREEN:
+                green.setFill(Color.LIMEGREEN);
+                break;
         }
-
-        timerDisplay.setTime(seconds, color);
+    }
+    public TimerDisplay getTimerDisplay() {
+        return timerDisplay;
     }
 }

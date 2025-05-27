@@ -1,5 +1,6 @@
 package com.example.trafficlightwithjava.view;
 
+import com.example.trafficlightwithjava.model.Konum;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -7,10 +8,22 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
 public class ArabaView extends Pane {
+    final Rectangle govde;
+    final Rectangle kabin;
+    final Polygon cam;
+    final Circle farSol,farSag,stopSol,stopSag,tekerOn,tekerArka;
 
-    public ArabaView(Color renk, double baslangicX, double baslangicY) {
+    public static final double ARABA_GENISLIGI = 50.0;
+    public static final double ARABA_YUKSEKLIGI = 43.0;
+
+    int arabaId;
+    Color arabaRengi;
+
+    public ArabaView(int arabaId, Color renk, Konum baslangicKonum, double arabaGenisligi, double arabaYuksekligi) {
+        this.arabaId=arabaId;
+        this.arabaRengi=renk;
         // Gövde
-        Rectangle govde = new Rectangle(50, 20);
+        govde = new Rectangle(50, 20);
         govde.setFill(renk);
         govde.setArcWidth(8);
         govde.setArcHeight(8);
@@ -18,13 +31,13 @@ public class ArabaView extends Pane {
         govde.setLayoutY(15);
 
         // Kabin (üst bölüm)
-        Rectangle kabin = new Rectangle(30, 12);
+        kabin = new Rectangle(30, 12);
         kabin.setFill(Color.LIGHTGRAY);
         kabin.setLayoutX(10);
         kabin.setLayoutY(5);
 
         // Cam (ön cama mavi efekt)
-        Polygon cam = new Polygon(
+        cam = new Polygon(
                 12.0, 6.0,
                 18.0, 6.0,
                 25.0, 16.0,
@@ -33,41 +46,58 @@ public class ArabaView extends Pane {
         cam.setFill(Color.LIGHTBLUE);
 
         // Farlar (ön)
-        Circle farSol = new Circle(2);
+        farSol = new Circle(2);
         farSol.setFill(Color.WHITE);
         farSol.setLayoutX(2);
         farSol.setLayoutY(18);
 
-        Circle farSag = new Circle(2);
+        farSag = new Circle(2);
         farSag.setFill(Color.WHITE);
         farSag.setLayoutX(2);
         farSag.setLayoutY(30);
 
         // Stop lambaları (arka)
-        Circle stopSol = new Circle(2);
+        stopSol = new Circle(2);
         stopSol.setFill(Color.RED);
         stopSol.setLayoutX(48);
         stopSol.setLayoutY(18);
 
-        Circle stopSag = new Circle(2);
+        stopSag = new Circle(2);
         stopSag.setFill(Color.RED);
         stopSag.setLayoutX(48);
         stopSag.setLayoutY(30);
 
         // Tekerlekler
-        Circle tekerOn = new Circle(5);
+        tekerOn = new Circle(5);
         tekerOn.setFill(Color.BLACK);
         tekerOn.setLayoutX(10);
         tekerOn.setLayoutY(38);
 
-        Circle tekerArka = new Circle(5);
+        tekerArka = new Circle(5);
         tekerArka.setFill(Color.BLACK);
         tekerArka.setLayoutX(40);
         tekerArka.setLayoutY(38);
 
         // Tüm parçaları ekle
         this.getChildren().addAll(govde, kabin, cam, farSol, farSag, stopSol, stopSag, tekerOn, tekerArka);
-        this.setLayoutX(baslangicX);
-        this.setLayoutY(baslangicY);
+    }
+
+    public void updatePosition(Konum yeniKonum) {
+        this.setLayoutX(yeniKonum.getX());
+        this.setLayoutY(yeniKonum.getY());
+    }
+
+    public int getArabaId() {
+        return arabaId;
+    }
+
+    public  Color getArabaRengi(){
+        return arabaRengi;
+    }
+    public static double getArabaGenisligi(){
+        return ARABA_GENISLIGI;
+    }
+    public static double getArabaYuksekligi(){
+        return ARABA_YUKSEKLIGI;
     }
 }

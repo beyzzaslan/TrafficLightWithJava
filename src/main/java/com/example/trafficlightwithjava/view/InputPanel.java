@@ -27,7 +27,10 @@ public class InputPanel extends VBox {
 
     private HBox controlButtonsBox;
     private Consumer<Map<String, Integer>> onApplyListener;
-    private Runnable onStartListener; // EKLENDİ: sayaç başlatma için listener
+    private Runnable onStartSimulationListener; // EKLENDİ: sayaç başlatma için listener
+    private Runnable onResetListener;
+    private Runnable onStopListener;
+    private Runnable onContinueListener;
 
     public InputPanel() {
         this.setPrefWidth(300);
@@ -49,13 +52,6 @@ public class InputPanel extends VBox {
         controlButtonsBox.getChildren().addAll(applyButton, resetButton, stopButton, continueButton);
         controlButtonsBox.setVisible(false);
 
-        manualButton.setOnAction(e -> openManuelDialog());
-        randomButton.setOnAction(e -> generateRandomCounts());
-        applyButton.setOnAction(e -> applyCounts()); // sayaç burada başlatılacak
-        resetButton.setOnAction(e -> resetEvent());
-        stopButton.setOnAction(e -> stopEvent());
-        continueButton.setOnAction(e -> continueEvent());
-
         BorderPane layout = new BorderPane();
         layout.setPadding(new Insets(10));
         layout.setStyle("-fx-border-color: blue; -fx-border-width: 2px; -fx-border-style: dotted;");
@@ -65,16 +61,25 @@ public class InputPanel extends VBox {
         BorderPane.setMargin(controlButtonsBox, new Insets(5, 0, 0, 0));
 
         this.getChildren().add(layout);
+        manualButton.setOnAction(e -> openManuelDialog());
+        randomButton.setOnAction(e -> generateRandomCounts());
+        applyButton.setOnAction(e -> applyCounts()); // sayaç burada başlatılacak
+        resetButton.setOnAction(e -> resetEvent());
+        stopButton.setOnAction(e -> stopEvent());
+        continueButton.setOnAction(e -> continueEvent());
     }
 
     private void openManuelDialog() {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Manuel Giriş");
+        dialog.setHeaderText("Her Yön İçin Araç Sayısını Girin (1-100)"); // Sizin metniniz buydu.
+
 
         GridPane grid = new GridPane();
         grid.setVgap(10);
         grid.setHgap(10);
         TextField northField = new TextField();
+
         TextField southField = new TextField();
         TextField eastField = new TextField();
         TextField westField = new TextField();
@@ -110,6 +115,7 @@ public class InputPanel extends VBox {
 
             } catch (NumberFormatException ex) {
                 showError("Geçerli sayılar giriniz");
+                hideSimulationControls();
             }
         }
     }
@@ -132,6 +138,9 @@ public class InputPanel extends VBox {
         if (onApplyListener != null) {
             onApplyListener.accept(getAllCounts());
         }
+        if (onStartSimulationListener != null) {
+            onStartSimulationListener.run();
+        }
     }
 
     private void applyCounts() {
@@ -139,8 +148,8 @@ public class InputPanel extends VBox {
         if (onApplyListener != null) {
             onApplyListener.accept(getAllCounts());
         }
-        if (onStartListener != null) {
-            onStartListener.run(); // ❗ Sayaç burada başlar
+        if (onStartSimulationListener != null) {
+            onStartSimulationListener.run(); // ❗ Sayaç burada başlar
         }
     }
 
@@ -150,19 +159,24 @@ public class InputPanel extends VBox {
         eastCount = 0;
         westCount = 0;
 
-        applyButton.setVisible(false);
-        resetButton.setVisible(false);
-        stopButton.setVisible(false);
-        continueButton.setVisible(false);
-        controlButtonsBox.setVisible(false);
+        hideSimulationControls();
+        if (onResetListener != null) { // Controller'a reset sinyalini gönder
+            onResetListener.run();
+        }
     }
 
     private void stopEvent() {
         System.out.println("Simülasyon durduruldu.");
+        if (onStopListener != null) { // Controller'a durdurma sinyalini gönder
+            onStopListener.run();
+        }
     }
 
     private void continueEvent() {
         System.out.println("Simülasyon devam etti.");
+        if (onContinueListener != null) { // Controller'a devam etme sinyalini gönder
+            onContinueListener.run();
+        }
     }
 
     private void showSimulationControls() {
@@ -171,6 +185,13 @@ public class InputPanel extends VBox {
         stopButton.setVisible(true);
         continueButton.setVisible(true);
         controlButtonsBox.setVisible(true);
+    }
+    public void hideSimulationControls() { // Bu metot da View'in kendi durumunu yönetiyor
+        applyButton.setVisible(false);
+        resetButton.setVisible(false);
+        stopButton.setVisible(false);
+        continueButton.setVisible(false);
+        controlButtonsBox.setVisible(false);
     }
 
     private void showError(String msg) {
@@ -184,16 +205,27 @@ public class InputPanel extends VBox {
         this.onApplyListener = listener;
     }
 
-    public void setOnStartListener(Runnable listener) {
-        this.onStartListener = listener;
+    public void setOnStartSimulationListener(Runnable listener) {
+        this.onStartSimulationListener = listener;
+    }
+    public void setOnResetListener(Runnable listener) {
+        this.onResetListener = listener;
+    }
+
+    public void setOnStopListener(Runnable listener) {
+        this.onStopListener = listener;
+    }
+
+    public void setOnContinueListener(Runnable listener) {
+        this.onContinueListener = listener;
     }
 
     public Map<String, Integer> getAllCounts() {
         Map<String, Integer> counts = new HashMap<>();
-        counts.put("NORTH", northCount);
-        counts.put("SOUTH", southCount);
-        counts.put("EAST", eastCount);
-        counts.put("WEST", westCount);
+        counts.put("KUZEY", northCount);
+        counts.put("GUNEY", southCount);
+        counts.put("DOGU", eastCount);
+        counts.put("BATI", westCount);
         return counts;
     }
 

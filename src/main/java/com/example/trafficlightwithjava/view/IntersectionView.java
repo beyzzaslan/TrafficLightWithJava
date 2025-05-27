@@ -63,13 +63,7 @@ public class IntersectionView extends StackPane {
         );
 
         arabaKatmani = new Group();
-
         this.getChildren().addAll(intersection, arabaKatmani);
-
-        lightNorth.updateState("green", 100);
-        lightSouth.updateState("red", 100);
-        lightEast.updateState("red", 100);
-        lightWest.updateState("red", 100);
     }
 
     public Group getArabaKatmani() {
