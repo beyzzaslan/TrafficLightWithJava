@@ -101,9 +101,30 @@ public class AracYoneticisi {
                 throw new IllegalArgumentException("Geçersiz YönTipi: " + yonTipi);
         }
 
-        for (int i = 0; i < toplamOlusturulacakSayi; i++) {
-            hedefKuyruk.add(new Araba(yonTipi, new Konum(0, 0)));
+        Konum girisKonumu = getGirisKonumuByYonTipi(yonTipi);
+        double x = girisKonumu.getX();
+        double y = girisKonumu.getY();
+
+// Konumu biraz geriden başlat (giriş yönüne göre)
+        switch (yonTipi) {
+            case KUZEY:
+                y -= arabaYuksekligi;
+                break;
+            case GUNEY:
+                y += arabaYuksekligi;
+                break;
+            case DOGU:
+                x += arabaGenisligi;
+                break;
+            case BATI:
+                x -= arabaGenisligi;
+                break;
         }
+
+        for (int i = 0; i < toplamOlusturulacakSayi; i++) {
+            hedefKuyruk.add(new Araba(yonTipi, new Konum(x, y)));
+        }
+
         System.out.println(yonTipi + " yönü için " + toplamOlusturulacakSayi + " araç kuyruğa eklendi. Kuyruk boyutu: " + hedefKuyruk.size());
     }
 

@@ -82,8 +82,8 @@ public class ArabaView extends Pane {
 
     // LayoutX/Y yerine sadece TranslateX/Y kullanılıyor
     public void updatePosition(Konum yeniKonum) {
-        this.setTranslateX(yeniKonum.getX());
-        this.setTranslateY(yeniKonum.getY());
+        this.setLayoutX(yeniKonum.getX()-ARABA_GENISLIGI/2.0);
+        this.setLayoutY(yeniKonum.getY()-ARABA_YUKSEKLIGI/2.0);
     }
 
     public int getArabaId() {

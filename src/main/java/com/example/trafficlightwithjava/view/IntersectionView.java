@@ -19,7 +19,7 @@ public class IntersectionView extends StackPane {
     public IntersectionView() {
         this.setPrefSize(WIDTH, HEIGHT);
 
-        // Arka plan çim
+        // ❗ Arka plan çim
         BackgroundImage grassBg = new BackgroundImage(
                 new Image(getClass().getResource("/com/example/trafficlightwithjava/cimm.png").toExternalForm(), WIDTH, HEIGHT, false, true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
@@ -27,12 +27,15 @@ public class IntersectionView extends StackPane {
         );
         this.setBackground(new Background(grassBg));
 
+        // ❗ Sabit koordinatlı yerleşim root'u
+        Pane layoutRoot = new Pane();
+        layoutRoot.setPrefSize(WIDTH, HEIGHT);
+
         Group intersection = new Group();
 
         int centerX = WIDTH / 2;
         int centerY = HEIGHT / 2;
 
-        // Koyu gri yol rengi
         Color koyuGri = Color.rgb(30, 30, 30);
 
         // Dikey yol
@@ -47,7 +50,7 @@ public class IntersectionView extends StackPane {
         horizontalRoad.setX(-400);
         horizontalRoad.setY(centerY - ROAD_WIDTH / 2);
 
-        // Yolların ortasındaki çizgiler
+        // Yol çizgileri
         Line verticalLine = new Line(centerX, 65, centerX, HEIGHT);
         verticalLine.setStroke(Color.WHITE);
         verticalLine.setStrokeWidth(1);
@@ -60,22 +63,30 @@ public class IntersectionView extends StackPane {
 
         // Trafik ışıkları
         lightNorth = new TrafficLight(centerX - 80, centerY - 200, false);
-        lightNorth.setRotate(180); // 180 derece döndür
+        lightNorth.setRotate(180);
         lightSouth = new TrafficLight(centerX + 50, centerY + 100, false);
         lightEast = new TrafficLight(centerX + 125, centerY - 120, true);
-        lightEast.setRotate(270); // 180 derece döndür
+        lightEast.setRotate(270);
         lightWest = new TrafficLight(centerX - 170, centerY + 10, true);
 
-        // Kavşak grubu
         intersection.getChildren().addAll(
                 verticalRoad, horizontalRoad,
                 verticalLine, horizontalLine,
                 lightNorth, lightSouth, lightEast, lightWest
         );
 
-        // Araç katmanı
+        // ❗ Araç katmanı sabitleniyor
         arabaKatmani = new Group();
-        this.getChildren().addAll(intersection, arabaKatmani);
+        arabaKatmani.setLayoutX(0);
+        arabaKatmani.setLayoutY(0);
+        arabaKatmani.setTranslateX(0);
+        arabaKatmani.setTranslateY(0);
+
+        // ❗ layoutRoot içine her şeyi koy
+        layoutRoot.getChildren().addAll(intersection, arabaKatmani);
+
+        // ❗ StackPane'e sadece layoutRoot'u koy
+        this.getChildren().add(layoutRoot);
     }
 
     public Group getArabaKatmani() {

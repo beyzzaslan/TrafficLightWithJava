@@ -104,6 +104,7 @@ public class TrafficLightController {
             public void handle(long now) {
                 if (isSimulationRunning && !isSimulationPaused) {
                     double gecenSure = (now - lastUpdateTime) / 1_000_000_000.0; // Saniye cinsinden
+                    gecenSure=Math.min(gecenSure,0.05);
                     lastUpdateTime = now;
                     guncelleSimulasyon(gecenSure);
                 }
@@ -213,7 +214,10 @@ public class TrafficLightController {
             isSimulationRunning = true;
             isSimulationPaused = false;
             lastUpdateTime = System.nanoTime(); // Simülasyon başladığında zamanı sıfırla
-            kavsakFazYonetici.simuulasyonuSifirla(); // İlk fazı başlat (tüm ışıklar kırmızı)
+
+            kavsakFazYonetici.simuulasyonuSifirla(); // Tüm ışıklar kırmızı yapılır
+            kavsakFazYonetici.ilkFaziKur();          // 🔥 İlk yeşil faz burada başlatılır! ← BUNU EKLE!
+
             gameLoop.start();
             System.out.println("Simülasyon Başlatıldı.");
         }

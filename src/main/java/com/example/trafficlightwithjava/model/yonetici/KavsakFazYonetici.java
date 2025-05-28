@@ -63,7 +63,7 @@ public class KavsakFazYonetici {//ışıkların durum değiştirmesi
         return (double)yesilSure + TrafikIsigi.SARI_ISIK_SURESI + KIRMIZI_ARAC_GECIS_SURESI;
     }
 
-    private void ilkFaziKur() {
+    public void ilkFaziKur() {
         mevcutFazIndex = 0;
         fazSayaci = 0;
 
@@ -73,7 +73,15 @@ public class KavsakFazYonetici {//ışıkların durum değiştirmesi
                 isik.kirmiziYap(BASLANGIC_KIRMIZI_SURESI); //başlangıçta tüm ışıkları 3 sn kırmızı yaptık
             }
         }
-        System.out.println("Simülasyon başlatılıyor. Tüm ışıklar " + BASLANGIC_KIRMIZI_SURESI + "sn Kırmızı.");
+
+        YonTipi ilkYon = fazlar[mevcutFazIndex];
+        TrafikIsigi ilkIsik = kavsak.getTrafikIsigiByYonTipi(ilkYon);
+        if (ilkIsik != null) {
+            int[] yesilSureleri = sureHesaplayici.yesilSureleriHesapla();
+            int yesilSure = yesilSureleri[ilkYon.ordinal()];
+            ilkIsik.yesilYap(yesilSure);
+            System.out.println("İlk faz başladı: " + ilkYon.name() + " Yeşil. Süre: " + yesilSure + "sn");
+        }
     }
 
     private void sonrakiFazaGec() {
