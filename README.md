@@ -27,9 +27,9 @@ Bu projede, dört yol kavşağında trafik ışıklarının sürelerini, o anki 
 
 ## 🧩 Temel Özellikler
 
-* 🖥️ **Kullanıcı Dostu Arayüz:** JavaFX ile sade, şık ve kolay kullanılır bir ekran
+* 🖥️ **Kullanıcı Dostu Arayüz:** JavaFX ile sade, şık ve kolay kullanılır bir ekran.
   
-* 🔢 **Araç Girişi:** Dört yöne birden araç sayısı girilebiliyor, ya da sistem otomatik rastgele atıyor!
+* 🔢 **Araç Girişi:** Dört yöne birden araç sayısı girilebiliyor, ya da sistem otomatik rastgele atıyor.
   
 * ⏳ **Dinamik Işıklar:** Yeşil, sarı, kırmızı ışık süreleri, araç yoğunluğuna göre otomatik değişiyor.
   
@@ -37,7 +37,7 @@ Bu projede, dört yol kavşağında trafik ışıklarının sürelerini, o anki 
   
 * 🚙💨 **Animasyon:** Araçlar ışıklara göre hareket ediyor ve kavşaktan geçtiğinde ekrandan kayboluyor.
   
-* 🚧 **Çarpışma Önleme:** Araçların çarpışmaması için özel mantık kullanıldı.
+* 🚧 **Çarpışma Önleme:** Araçların çarpışmaması için özel bir Çarpışma Önleyici isimli bir sınıf yazıldı.
   
 * ⏰ **Sabit Toplam Süre:** Her tur toplam süre sabit (ör. 120 sn). Sarı ışıklar ise her zaman 3 saniye.
   
@@ -77,7 +77,7 @@ Burada şu algoritma kullanılır:
 
 🟥 Kırmızı ışık süresi, ilgili yön için toplamdan yeşil ve sarı süreler çıkarılarak hesaplanır.
 
-⏳ Bir yönün yeşil ışığı tekrar yanmadan önce, o yön minimum 1 saniye kırmızıda bekler.
+⏳ Bir yönün yeşil ışığı tekrar yanmadan önce, tüm ışıklar minimum 1 saniye kırmızıda bekler.
 
 🔁 Yeşil ışık sırası: Sıra her zaman Kuzey → Doğu → Güney → Batı şeklinde döner.
 
