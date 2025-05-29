@@ -40,39 +40,75 @@ public class InputPanel extends VBox {
         this.setPadding(new Insets(10));
         this.setSpacing(10);
 
+// Başlık
         Label title = new Label("Araç Yoğunluğu Girişi");
-        title.setPadding(new Insets(10));
-        title.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 18));
-        title.setTextFill(Color.WHITE); // Yazı rengi kırmızı
+        title.setPadding(new Insets(8));
+        title.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 18));
+        title.setTextFill(Color.web("#17c964")); // Canlı yeşil ton
+
+// Manuel ve Rastgele butonları yatay HBox içine alınır
         manualButton = new Button("Manuel Giriş");
         randomButton = new Button("Rastgele Giriş");
+        manualButton.setFont(Font.font("Arial", FontWeight.BOLD, 15));
+        randomButton.setFont(Font.font("Arial", FontWeight.BOLD, 15));
+        manualButton.setStyle("-fx-background-color: #e1ffe1; -fx-text-fill: #157115; -fx-background-radius: 8;");
+        randomButton.setStyle("-fx-background-color: #e1ffe1; -fx-text-fill: #157115; -fx-background-radius: 8;");
+
+        VBox girisBox = new VBox(8, manualButton, randomButton);
+        girisBox.setAlignment(Pos.CENTER);
+
+// Başlat, Resetle, Stop, Devam Et butonları yatay HBox içinde
         applyButton = new Button("Başlat");
         resetButton = new Button("Resetle");
-        stopButton = new Button("Stop");
-        continueButton = new Button("Devam Et");
+        stopButton = new Button("Dur");
+        continueButton = new Button("Devam ");
 
-        VBox topPanel = new VBox(10);
-        topPanel.setPadding(new Insets(10));
-        topPanel.getChildren().addAll(title, manualButton, randomButton);
+        Button[] actionBtns = { applyButton, resetButton, stopButton, continueButton };
+        for (Button b : actionBtns) {
+            b.setFont(Font.font("Arial", FontWeight.BOLD, 10)); // 13pt daha iyi gözükür
+            b.setPrefWidth(110); // Hepsine 110 ver
+            b.setStyle("-fx-background-color: #a5ffc9; -fx-text-fill: #006c3a; -fx-background-radius: 9;");
+        }
+        applyButton.setPrefWidth(120);
+        resetButton.setPrefWidth(120);
+        stopButton.setPrefWidth(120);
+        continueButton.setPrefWidth(120);
 
-        controlButtonsBox = new HBox(10);
+        for (Button b : actionBtns) {
+            b.setPrefWidth(120); // Hepsini 120 yap
+        }
+
+
+        controlButtonsBox = new HBox(8);
         controlButtonsBox.getChildren().addAll(applyButton, resetButton, stopButton, continueButton);
+        controlButtonsBox.setAlignment(Pos.CENTER);
+        controlButtonsBox.setPrefWidth(400); // İstediğin kadar genişlik ver (ör: 320)
+
         controlButtonsBox.setVisible(false);
 
+// Üst panel, başlık ve giriş butonları üst üste (VBox)
+        VBox topPanel = new VBox(8);
+        topPanel.setPadding(new Insets(10, 0, 10, 0));
+        topPanel.getChildren().addAll(title, girisBox);
+
+// Ana layout
         BorderPane layout = new BorderPane();
-        layout.setPadding(new Insets(20,20,20,20));
-        BorderPane.setAlignment(controlButtonsBox, Pos.TOP_CENTER);
+        layout.setPadding(new Insets(20, 20, 20, 20));
         layout.setTop(topPanel);
         layout.setBottom(controlButtonsBox);
-        BorderPane.setMargin(controlButtonsBox, new Insets(5, 0, 0, 0));
+        BorderPane.setAlignment(controlButtonsBox, Pos.CENTER);
+        BorderPane.setMargin(controlButtonsBox, new Insets(10, 0, 0, 0));
 
         this.getChildren().add(layout);
+
+// Button Event Handlers (Değişmedi)
         manualButton.setOnAction(e -> openManuelDialog());
         randomButton.setOnAction(e -> generateRandomCounts());
-        applyButton.setOnAction(e -> applyCounts()); // sayaç burada başlatılacak
+        applyButton.setOnAction(e -> applyCounts());
         resetButton.setOnAction(e -> resetEvent());
         stopButton.setOnAction(e -> stopEvent());
         continueButton.setOnAction(e -> continueEvent());
+
     }
 
     private void openManuelDialog() {
