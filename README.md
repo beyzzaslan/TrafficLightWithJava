@@ -112,7 +112,10 @@ Burada şu algoritma kullanılır:
 
 ## 📸 Ekran Görüntüleri
 
-![image](https://github.com/user-attachments/assets/a4c63d49-7626-42b2-9e51-12b352bbd6ca)
+![image](https://github.com/user-attachments/assets/3467d539-2bbf-4e48-aad4-2b63814ce4c0)
+![image](https://github.com/user-attachments/assets/952dd51d-04bc-4b60-ba2f-a6ff283cc8f7)
+![image](https://github.com/user-attachments/assets/729a9007-3d82-436f-9053-d1369e20b94d)
+
 
 
 
