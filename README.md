@@ -95,9 +95,5 @@ Amaç; kavşaktaki trafik akışını daha verimli ve güvenli hale getirmektir.
 
 ---
 
-## 📝 Lisans
 
-> Bu projenin tüm hakları saklıdır. İzinsiz kullanılamaz.
-
----
 
