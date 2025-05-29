@@ -39,14 +39,23 @@ Bu projede, dört yol kavşağında trafik ışıklarının sürelerini, o anki 
 
 ---
 
-## 💡 Trafik Işığı Sırası ve Zamanlama Mantığı
+## 💡 Trafik Işığı Kontrol ve Sinyal Zamanlama Mantığı
+Projenin en önemli kısmı, trafik ışıklarının sürelerinin akıllıca ve adil şekilde dağıtılmasıdır.
+Burada şu algoritma kullanılır:
 
-* 🟢 **Yeşil ışıklar sırayla ve saat yönünde yanar**: (Kuzey → Doğu → Güney → Batı)
-* 🛑 **Aynı anda sadece bir yönde yeşil ışık** yanar, diğerleri bekler.
-* 🔢 **Yeşil ışık süresi, o yöndeki araç sayısının toplam içindeki oranına göre dağıtılır** (yani çok aracı olan yöne daha fazla yeşil ışık!)
-* ⏱️ **Toplam yeşil süreler** her turda 120 saniyeyi aşmaz.
-* 🟨 **Her yeşilden sonra 3 saniye sarı ışık**, sonra kısa bir süre (1 sn) kırmızı ışık olur.
-* 🔁 Sıra tekrar başa döner, döngü devam eder.
+🟢 Yeşil ışıklar saat yönünde sırayla yanar: Her seferinde sadece bir yönün ışığı yeşil olur; diğerleri kırmızıda bekler.
+
+🔢 Her yönün yeşil ışık süresi, o yöndeki araç yoğunluğunun toplam araç sayısına oranına göre hesaplanır. (Yani, daha fazla aracı olan yöne daha uzun yeşil süre verilir.)
+
+🕒 Toplam faz süresi sabittir (örn. 120 saniye). Her döngüde dört yön için yeşil ışıkların toplamı 120'yi geçmez.
+
+🟨 Sarı ışık süresi sabittir (örn. 3 saniye) ve her yeşilden sonra yanar.
+
+🟥 Kırmızı ışık süresi, ilgili yön için toplamdan yeşil ve sarı süreler çıkarılarak hesaplanır.
+
+⏳ Bir yönün yeşil ışığı tekrar yanmadan önce, o yön minimum 1 saniye kırmızıda bekler.
+
+🔁 Yeşil ışık sırası: Sıra her zaman Kuzey → Doğu → Güney → Batı şeklinde döner.
 
 #### 🔢 Örnek Süre Dağılımı
 
@@ -57,16 +66,22 @@ Bu projede, dört yol kavşağında trafik ışıklarının sürelerini, o anki 
 | Doğu   | 10      | 15 sn         |
 | Batı   | 10      | 15 sn         |
 
+Her yönün yeşil ışığı yandıktan sonra 3 saniye sarı ışık, ardından 1 saniye kırmızı ışık olur.
+
+Sonra saat yönünde sıradaki yöne geçilir; böylece her yön, yeşil ışığı tekrar almadan önce diğer yönlerin sırasını ve kendi kırmızı süresini bekler.
+
+
 ---
+## 🖥️ Uygulama Kullanımı
+🚦 Başlangıçta: Uygulama açıldığında dört yönlü kavşak ve trafik ışıkları ekranda yer alır.
 
-## 🖥️ Nasıl Kullanılır?
+🔢 Araç Girişi: Her yön için araç sayısı manuel girilebilir veya rastgele üret butonuyla otomatik oluşturulabilir.
 
-1. 🚦 **Başlatınca** ekranda dört yönlü kavşak ve trafik ışıkları gözükür.
-2. 🔢 Her yön için araç sayılarını **elle gir** ya da **rastgele üret** butonuna bas.
-3. ▶️ **“Başlat”** dediğinde sistem, yoğunluklara göre süreleri hesaplayıp simülasyonu başlatır.
-4. 👀 Ekranda ışıklar, kalan süreler ve araç hareketleri animasyonlu olarak gözükür.
-5. ⏸️ **“Durdur”, “Devam” ve “Sıfırla”** ile simülasyonu kontrol edebilirsin.
+▶️ Başlat: “Başlat” butonuna tıklanır; sistem girilen araç sayılarına göre yeşil ışık sürelerini hesaplar ve simülasyon başlar.
 
+👀 Görsellik: Ekranda her trafik ışığı için kalan süre, araçların hareketleri ve durma-ilerleme animasyonları gerçek zamanlı olarak izlenir.
+
+⏸️ Simülasyon Kontrolü: “Durdur”, “Devam” ve “Sıfırla” gibi kontrollerle simülasyon istenildiği gibi yönetilebilir.
 ---
 
 ## 📸 Ekran Görüntüleri
