@@ -60,7 +60,7 @@ public class TrafficLight extends Group {
                 red.setFill(Color.RED);
                 break;
             case YELLOW:
-                yellow.setFill(Color.YELLOW);
+                yellow.setFill(Color.rgb(255, 220, 0));
                 break;
             case GREEN:
                 green.setFill(Color.LIMEGREEN);

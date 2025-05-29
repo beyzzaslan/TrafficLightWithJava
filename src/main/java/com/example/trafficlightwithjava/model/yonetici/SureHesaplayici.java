@@ -87,4 +87,26 @@ public class SureHesaplayici {
         }
         return yesilSureleri;
     }
+    public int[] kirmiziBeklemeSuresi(int[] yesilSureleri) {
+        int[] kirmiziSureleri = new int[yesilSureleri.length];
+        YonTipi[] fazSirasi={
+                YonTipi.KUZEY,
+                YonTipi.DOGU,
+                YonTipi.GUNEY,
+                YonTipi.BATI,
+        };
+
+        for(int i=0;i<fazSirasi.length;i++){
+            int toplam=0;
+            for(int j=0;j<fazSirasi.length;j++){
+                if(i==j) break;
+
+                YonTipi oncekiYon=fazSirasi[j];
+                int yesil=yesilSureleri[oncekiYon.ordinal()];
+                toplam+=yesil+TrafikIsigi.SARI_ISIK_SURESI+1;
+            }
+            kirmiziSureleri[fazSirasi[i].ordinal()]=toplam;
+        }
+        return kirmiziSureleri;
+    }
 }

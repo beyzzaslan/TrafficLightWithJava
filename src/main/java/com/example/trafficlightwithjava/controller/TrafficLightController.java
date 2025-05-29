@@ -56,26 +56,19 @@ public class TrafficLightController {
     private final Konum BATI_DURMA_NOKTASI = new Konum(INTERSECTION_WIDTH / 2.0 - ROAD_WIDTH / 2.0 - TrafikIsigi.SARI_ISIK_SURESI, INTERSECTION_HEIGHT / 2.0 + ROAD_WIDTH / 4.0); // IntersectionView'daki ışık konumuna göre ayarlandı
 
     public TrafficLightController() {
-        // 1. View Bileşenlerini Oluşturma
         arayuz = new Arayuz();
         intersectionView = arayuz.getIntersectionView();
         inputPanel = arayuz.getInputPanel();
 
-        // 2. Model Bileşenlerini Oluşturma
-        // Kavşak merkezi ve boyutları
         Konum kavsakMerkezi = new Konum(INTERSECTION_WIDTH / 2.0, INTERSECTION_HEIGHT / 2.0);
         kavsak = new Kavsak(kavsakMerkezi, ROAD_WIDTH, ROAD_WIDTH); // Kavşağın kendisi bir kare alan olarak düşünebiliriz
 
-        // Yönleri oluştur (SureHesaplayici ve KavsakFazYonetici için)
-        Yon kuzeyYon = new Yon(YonTipi.KUZEY);
-        Yon guneyYon = new Yon(YonTipi.GUNEY);
-        Yon doguYon = new Yon(YonTipi.DOGU);
-        Yon batiYon = new Yon(YonTipi.BATI);
-        List<Yon> yonler = new ArrayList<>();
-        yonler.add(kuzeyYon);
-        yonler.add(guneyYon);
-        yonler.add(doguYon);
-        yonler.add(batiYon);
+        List<Yon> yonler=Arrays.asList(
+                new Yon(YonTipi.KUZEY),
+                new Yon(YonTipi.GUNEY),
+                new Yon(YonTipi.DOGU),
+                new Yon(YonTipi.BATI)
+        );
 
         sureHesaplayici = new SureHesaplayici(yonler);
         kavsakFazYonetici = new KavsakFazYonetici(kavsak, sureHesaplayici, yonler);
@@ -111,10 +104,8 @@ public class TrafficLightController {
             }
         };
 
-        // 4. Event Handler'ları Ayarlama (InputPanel'den gelen olaylar)
         setupEventHandlers();
 
-        // Başlangıçta simülasyon duraklatılmış veya başlatılmamış durumda olacak
         isSimulationRunning = false;
         isSimulationPaused = false;
         lastUpdateTime = System.nanoTime(); // İlk zamanı başlat
@@ -125,7 +116,6 @@ public class TrafficLightController {
     }
 
     private void setupEventHandlers() {
-        // Kullanıcı Manuel veya Rastgele giriş yaptığında
         inputPanel.setOnApplyListener(counts -> {
             // Önceki tüm arabaları temizle (simülasyonu sıfırlamak için)
             aracYoneticisi.tumArabalariTemizle();
@@ -215,6 +205,7 @@ public class TrafficLightController {
             isSimulationPaused = false;
             lastUpdateTime = System.nanoTime(); // Simülasyon başladığında zamanı sıfırla
 
+            kavsakFazYonetici.hazirlikYap();
             kavsakFazYonetici.simuulasyonuSifirla(); // Tüm ışıklar kırmızı yapılır
             kavsakFazYonetici.ilkFaziKur();          // 🔥 İlk yeşil faz burada başlatılır! ← BUNU EKLE!
 
@@ -231,39 +222,37 @@ public class TrafficLightController {
     }
 
     private void guncelleSimulasyon(double gecenSure) {
-        // 1. Model Güncellemeleri (Simülasyon Mantığı)
         aracYoneticisi.guncelle(gecenSure); // Arabaları oluştur/hareket ettir
         carpismaOnleyici.guncelle(gecenSure); // Çarpışmaları önle (hız ayarı)
         kavsakFazYonetici.guncelle(gecenSure); // Işık fazlarını yönet
 
-        // 2. View Güncellemeleri (Görsel Yansıtma)
-
-        // a) Trafik Işıklarını Güncelle
         for (TrafikIsigi modelIsik : kavsak.getTrafikIsiklari()) {
             TrafficLight viewIsik = getTrafficLightViewForModel(modelIsik.getYon().getYonTipi());
             if (viewIsik != null) {
-                // Işık durumunu View'e aktar
                 viewIsik.updateState(modelIsik.getDurumTipi());
 
-                // Zamanlayıcıyı View'e aktar
-                viewIsik.getTimerDisplay().updateTime(modelIsik.getKalanSure());
-
-                // Zamanlayıcı metin rengini ışık durumuna göre ayarla
+                int kalanSure;
                 Color timerColor;
                 switch (modelIsik.getDurumTipi()) {
                     case GREEN:
+                        kalanSure=modelIsik.getKalanSure();
                         timerColor = Color.LIMEGREEN;
                         break;
                     case RED:
+                        kalanSure= kavsakFazYonetici.getKirmiziKalanSure(modelIsik.getYon().getYonTipi());
+                        if(kalanSure<0)kalanSure=0;
                         timerColor = Color.RED;
                         break;
                     case YELLOW:
+                        kalanSure=modelIsik.getKalanSure();
                         timerColor = Color.YELLOW;
                         break;
                     default:
+                        kalanSure=0;
                         timerColor = Color.BLACK; // Varsayılan
                         break;
                 }
+                viewIsik.getTimerDisplay().updateTime(kalanSure);
                 viewIsik.getTimerDisplay().setTextColor(timerColor);
             }
         }
@@ -285,26 +274,18 @@ public class TrafficLightController {
                 intersectionView.getArabaKatmani().getChildren().add(yeniArabaView);
             }
         }
-
-        // Mevcut arabaların konumlarını güncelle
-        for (Map.Entry<Araba, ArabaView> entry : arabaViewMap.entrySet()) {
-            Araba modelAraba = entry.getKey();
-            ArabaView arabaView = entry.getValue();
-            arabaView.updatePosition(modelAraba.getKonum());
-        }
-
-        // Ekrandan çıkan arabaları temizle
         Iterator<Map.Entry<Araba, ArabaView>> iterator = arabaViewMap.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<Araba, ArabaView> entry = iterator.next();
-            Araba modelAraba = entry.getKey();
-            ArabaView arabaView = entry.getValue();
-
-            // Eğer modeldeki aktif arabalar listesinde bu araba yoksa, View'den de kaldır
-            if (!aracYoneticisi.getAktifArabalar().contains(modelAraba)) {
-                intersectionView.getArabaKatmani().getChildren().remove(arabaView);
-                iterator.remove(); // Haritadan kaldır
+            if (!aracYoneticisi.getAktifArabalar().contains(entry.getKey())) {
+                intersectionView.getArabaKatmani().getChildren().remove(entry.getValue());
+                iterator.remove();
             }
+        }
+        for(Map.Entry<Araba,ArabaView>entry : arabaViewMap.entrySet()){
+            Araba modelAraba=entry.getKey();
+            ArabaView yeniArabaView=entry.getValue();
+            yeniArabaView.updatePosition(modelAraba.getKonum());
         }
     }
 

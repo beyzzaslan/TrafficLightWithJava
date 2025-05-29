@@ -5,6 +5,7 @@ public class TrafikIsigi {
     IsıkDurumTipi durumTipi;
     int toplamSure;
     Zamanlayici zamanlayici;
+    private double birikenSure=0.0;
 
     public static final int SARI_ISIK_SURESI=3;
     public static final int MIN_YESIL_SURE=0;
@@ -54,8 +55,11 @@ public class TrafikIsigi {
         setToplamSure(kirmiziSure);
         zamanlayici.sifirla(kirmiziSure);
     }
-    public void sureyiGuncelle(){
+    public void sureyiGuncelle(double gecenSure){
+        birikenSure+=gecenSure;
+        if(birikenSure>=1.0){
         zamanlayici.sureyiAzalt();
+        birikenSure=0.0;}
     }
     public boolean fazBittiMi(){
         return zamanlayici.getKalanSure()<=0;

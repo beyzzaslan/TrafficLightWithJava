@@ -140,13 +140,6 @@ public class InputPanel extends VBox {
         info.setContentText("North: " + northCount + "\nSouth: " + southCount +
                 "\nEast: " + eastCount + "\nWest: " + westCount);
         info.showAndWait();
-
-        if (onApplyListener != null) {
-            onApplyListener.accept(getAllCounts());
-        }
-        if (onStartSimulationListener != null) {
-            onStartSimulationListener.run();
-        }
     }
 
     private void applyCounts() {

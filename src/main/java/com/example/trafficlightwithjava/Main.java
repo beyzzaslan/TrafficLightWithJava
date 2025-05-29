@@ -16,7 +16,7 @@ public class Main extends Application {
 
         primaryStage.setTitle("Trafik Işığı Simülasyonu");
         primaryStage.setScene(scene);
-        primaryStage.setResizable(true);
+        primaryStage.setResizable(false);
         primaryStage.initStyle(StageStyle.DECORATED); // Üst çerçeve ZORLA görünür
         primaryStage.centerOnScreen(); // Ortala
         primaryStage.show();
