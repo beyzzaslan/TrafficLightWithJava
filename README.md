@@ -3,15 +3,21 @@
 
 Bu projede, dört yol kavşağında trafik ışıklarının sürelerini, o anki **araç yoğunluğuna göre otomatik** ayarlayan bir simülasyon geliştirdik. Amacımız, kavşaktaki trafiği daha **akıcı, adil ve güvenli** bir hale getirmek. Her şey Java & JavaFX ile, kullanıcı dostu ve görsel olarak zengin bir arayüzle hazırlandı!
 
+
 ---
 
 ## 🎯 Proje Amaçları
 
 * 🛣️ **Gerçekçi Kavşak Simülasyonu:** Kuzey, güney, doğu ve batıdan araçlar geliyor, her şey animasyonlu!
+  
 * 🔢 **Esnek Araç Girişi:** Araç sayılarını ister **manuel** gir, ister **rastgele üret** butonuyla keyfine bak!
+  
 * ⏱️ **Dinamik Yeşil Işık:** Her yönün yeşil ışık süresi, araç yoğunluğuna göre otomatik ayarlanıyor.
+  
 * 🚗💨 **Animasyonlu Akış:** Araçlar hareket ediyor, ışıklar değişiyor, her şey ekranda canlanıyor!
+  
 * 🚦 **Doğru Işık Yönetimi:** Araçlar sadece kendi ışığı yeşilken geçiyor, kırmızıda kesinlikle bekliyor.
+  
 * 🧩 **Temiz Kod ve Yapı:** Kodun tamamı MVC mimarisine uygun ve sürdürülebilir.
 
 ---
@@ -19,12 +25,19 @@ Bu projede, dört yol kavşağında trafik ışıklarının sürelerini, o anki 
 ## 🧩 Temel Özellikler
 
 * 🖥️ **Kullanıcı Dostu Arayüz:** JavaFX ile sade, şık ve kolay kullanılır bir ekran
+  
 * 🔢 **Araç Girişi:** Dört yöne birden araç sayısı girilebiliyor, ya da sistem otomatik rastgele atıyor!
+  
 * ⏳ **Dinamik Işıklar:** Yeşil, sarı, kırmızı ışık süreleri, araç yoğunluğuna göre otomatik değişiyor.
+  
 * 🕒 **Dijital Geri Sayım:** Her ışığın üstünde, kalan süre dijital sayaçla gösteriliyor.
+  
 * 🚙💨 **Animasyon:** Araçlar ışıklara göre hareket ediyor ve kavşaktan geçtiğinde ekrandan kayboluyor.
+  
 * 🚧 **Çarpışma Önleme:** Araçların çarpışmaması için özel mantık kullanıldı.
+  
 * ⏰ **Sabit Toplam Süre:** Her tur toplam süre sabit (ör. 120 sn). Sarı ışıklar ise her zaman 3 saniye.
+  
 * 🟩 **Yeşil Süre Sınırı:** Her yön için yeşil ışık minimum ve maksimum aralıkta tutuluyor (ör. 10-60 sn).
 
 ---
@@ -32,9 +45,13 @@ Bu projede, dört yol kavşağında trafik ışıklarının sürelerini, o anki 
 ## ⚙️ Kullanılan Teknolojiler
 
 * ☕ **Java 17+**
+  
 * 🎨 **JavaFX**
+* 
 * 🧩 **MVC mimarisi**
+* 
 * 📚 **List, Map** gibi Java koleksiyonları
+* 
 * 🚫 **Ekstra kütüphane yok**, sadece Java'nın standart kütüphaneleri
 
 ---
