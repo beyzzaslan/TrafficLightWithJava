@@ -4,6 +4,7 @@
 Bu projede, dört yol kavşağında trafik ışıklarının sürelerini, o anki **araç yoğunluğuna göre otomatik** ayarlayan bir simülasyon geliştirdik. Amacımız, kavşaktaki trafiği daha **akıcı, adil ve güvenli** bir hale getirmek. Her şey Java & JavaFX ile, kullanıcı dostu ve görsel olarak zengin bir arayüzle hazırlandı!
 
 
+
 ---
 
 ## 🎯 Proje Amaçları
@@ -19,6 +20,8 @@ Bu projede, dört yol kavşağında trafik ışıklarının sürelerini, o anki 
 * 🚦 **Doğru Işık Yönetimi:** Araçlar sadece kendi ışığı yeşilken geçiyor, kırmızıda kesinlikle bekliyor.
   
 * 🧩 **Temiz Kod ve Yapı:** Kodun tamamı MVC mimarisine uygun ve sürdürülebilir.
+
+
 
 ---
 
@@ -40,6 +43,8 @@ Bu projede, dört yol kavşağında trafik ışıklarının sürelerini, o anki 
   
 * 🟩 **Yeşil Süre Sınırı:** Her yön için yeşil ışık minimum ve maksimum aralıkta tutuluyor (ör. 10-60 sn).
 
+
+
 ---
 
 ## ⚙️ Kullanılan Teknolojiler
@@ -47,12 +52,14 @@ Bu projede, dört yol kavşağında trafik ışıklarının sürelerini, o anki 
 * ☕ **Java 17+**
   
 * 🎨 **JavaFX**
-* 
+  
 * 🧩 **MVC mimarisi**
-* 
+  
 * 📚 **List, Map** gibi Java koleksiyonları
-* 
+  
 * 🚫 **Ekstra kütüphane yok**, sadece Java'nın standart kütüphaneleri
+
+
 
 ---
 
@@ -83,9 +90,8 @@ Burada şu algoritma kullanılır:
 | Doğu   | 10      | 15 sn         |
 | Batı   | 10      | 15 sn         |
 
-Her yönün yeşil ışığı yandıktan sonra 3 saniye sarı ışık, ardından 1 saniye kırmızı ışık olur.
-
-Sonra saat yönünde sıradaki yöne geçilir; böylece her yön, yeşil ışığı tekrar almadan önce diğer yönlerin sırasını ve kendi kırmızı süresini bekler.
+* Her yönün yeşil ışığı yandıktan sonra 3 saniye sarı ışık, ardından 1 saniye kırmızı ışık olur.
+* Sonra saat yönünde sıradaki yöne geçilir; böylece her yön, yeşil ışığı tekrar almadan önce diğer yönlerin sırasını ve kendi kırmızı süresini bekler.
 
 
 ---
@@ -99,11 +105,16 @@ Sonra saat yönünde sıradaki yöne geçilir; böylece her yön, yeşil ışı�
 👀 Görsellik: Ekranda her trafik ışığı için kalan süre, araçların hareketleri ve durma-ilerleme animasyonları gerçek zamanlı olarak izlenir.
 
 ⏸️ Simülasyon Kontrolü: “Durdur”, “Devam” ve “Sıfırla” gibi kontrollerle simülasyon istenildiği gibi yönetilebilir.
+
+
+
 ---
 
 ## 📸 Ekran Görüntüleri
 
 ![image](https://github.com/user-attachments/assets/a4c63d49-7626-42b2-9e51-12b352bbd6ca)
+
+
 
 ---
 
@@ -112,6 +123,8 @@ Sonra saat yönünde sıradaki yöne geçilir; böylece her yön, yeşil ışı�
 * 👩‍💻 **Beyzanur Aslan**
 * 👩‍💻 **Ezgi Yücel**
 * 👨‍💻 **Mustafa Semih Kaya**
+
+
 
 ---
 
