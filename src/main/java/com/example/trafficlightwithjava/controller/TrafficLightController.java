@@ -43,16 +43,16 @@ public class TrafficLightController {
     // Model için giriş/durma konumları (IntersectionView'deki konumlarla eşleşmeli)
     // Bu değerleri IntersectionView'deki mantığa göre merkezi olarak tanımlıyoruz
     // Kavşağın merkezinden ROAD_WIDTH/2 kadar kaydırılmış X veya Y değerleri
-    private final Konum KUZEY_GIRIS_KONUM = new Konum(INTERSECTION_WIDTH / 2.0 - ROAD_WIDTH / 4.0, 0); // KUZEY arabaları için giriş yolu
-    private final Konum GUNEY_GIRIS_KONUM = new Konum(INTERSECTION_WIDTH / 2.0 + ROAD_WIDTH / 4.0, INTERSECTION_HEIGHT); // GÜNEY arabaları için giriş yolu
-    private final Konum DOGU_GIRIS_KONUM = new Konum(INTERSECTION_WIDTH, INTERSECTION_HEIGHT / 2.0 - ROAD_WIDTH / 4.0); // DOĞU arabaları için giriş yolu
-    private final Konum BATI_GIRIS_KONUM = new Konum(0, INTERSECTION_HEIGHT / 2.0 + ROAD_WIDTH / 4.0); // BATI arabaları için giriş yolu
+    private final Konum KUZEY_GIRIS_KONUM = new Konum(INTERSECTION_WIDTH / 2.0 - ROAD_WIDTH / 4.0 -50, 0); // KUZEY arabaları için giriş yolu
+    private final Konum GUNEY_GIRIS_KONUM = new Konum(INTERSECTION_WIDTH / 2.0 + ROAD_WIDTH / 4.0 - 50, INTERSECTION_HEIGHT); // GÜNEY arabaları için giriş yolu
+    private final Konum DOGU_GIRIS_KONUM = new Konum(INTERSECTION_WIDTH, INTERSECTION_HEIGHT / 2.0 - ROAD_WIDTH / 4.0 - 50); // DOĞU arabaları için giriş yolu
+    private final Konum BATI_GIRIS_KONUM = new Konum(0, INTERSECTION_HEIGHT / 2.0 + ROAD_WIDTH / 4.0 - 50); // BATI arabaları için giriş yolu
 
     // Durma noktaları (Işıkların önünde duracakları tahmini noktalar)
     // Bunlar da ışıkların konumuna ve araba boyutlarına göre hesaplanmalı
     private final Konum KUZEY_DURMA_NOKTASI = new Konum(INTERSECTION_WIDTH / 2.0 - ROAD_WIDTH / 4.0, INTERSECTION_HEIGHT / 2.0 - ROAD_WIDTH / 2.0 - TrafikIsigi.SARI_ISIK_SURESI); // IntersectionView'daki ışık konumuna göre ayarlandı
-    private final Konum GUNEY_DURMA_NOKTASI = new Konum(INTERSECTION_WIDTH / 2.0 + ROAD_WIDTH / 4.0, INTERSECTION_HEIGHT / 2.0 + ROAD_WIDTH / 2.0 + TrafikIsigi.SARI_ISIK_SURESI); // IntersectionView'daki ışık konumuna göre ayarlandı
-    private final Konum DOGU_DURMA_NOKTASI = new Konum(INTERSECTION_WIDTH / 2.0 + ROAD_WIDTH / 2.0 + TrafikIsigi.SARI_ISIK_SURESI, INTERSECTION_HEIGHT / 2.0 - ROAD_WIDTH / 4.0); // IntersectionView'daki ışık konumuna göre ayarlandı
+    private final Konum GUNEY_DURMA_NOKTASI = new Konum(INTERSECTION_WIDTH / 2.0 + ROAD_WIDTH / 4.0, INTERSECTION_HEIGHT / 2.0 + ROAD_WIDTH / 2.0 + TrafikIsigi.SARI_ISIK_SURESI - 125); // IntersectionView'daki ışık konumuna göre ayarlandı
+    private final Konum DOGU_DURMA_NOKTASI = new Konum(INTERSECTION_WIDTH / 2.0 + ROAD_WIDTH / 2.0 + TrafikIsigi.SARI_ISIK_SURESI - 125, INTERSECTION_HEIGHT / 2.0 - ROAD_WIDTH / 4.0); // IntersectionView'daki ışık konumuna göre ayarlandı
     private final Konum BATI_DURMA_NOKTASI = new Konum(INTERSECTION_WIDTH / 2.0 - ROAD_WIDTH / 2.0 - TrafikIsigi.SARI_ISIK_SURESI, INTERSECTION_HEIGHT / 2.0 + ROAD_WIDTH / 4.0); // IntersectionView'daki ışık konumuna göre ayarlandı
 
     public TrafficLightController() {

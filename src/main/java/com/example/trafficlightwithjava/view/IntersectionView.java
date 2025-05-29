@@ -41,33 +41,34 @@ public class IntersectionView extends StackPane {
         // Dikey yol
         Rectangle verticalRoad = new Rectangle(ROAD_WIDTH, HEIGHT);
         verticalRoad.setFill(koyuGri);
-        verticalRoad.setX(centerX - ROAD_WIDTH / 2);
+        verticalRoad.setX(centerX - ROAD_WIDTH );
+
         verticalRoad.setY(0);
 
         // Yatay yol
         Rectangle horizontalRoad = new Rectangle(1800, ROAD_WIDTH);
         horizontalRoad.setFill(koyuGri);
         horizontalRoad.setX(-400);
-        horizontalRoad.setY(centerY - ROAD_WIDTH / 2);
+        horizontalRoad.setY(centerY - ROAD_WIDTH);
 
         // Yol çizgileri
-        Line verticalLine = new Line(centerX, 65, centerX, HEIGHT);
+        Line verticalLine = new Line(centerX - ROAD_WIDTH/2 , 65, centerX - ROAD_WIDTH/2, HEIGHT);
         verticalLine.setStroke(Color.WHITE);
         verticalLine.setStrokeWidth(1);
         verticalLine.getStrokeDashArray().addAll(20.0, 20.0);
 
-        Line horizontalLine = new Line(-410, centerY, 1400, centerY);
+        Line horizontalLine = new Line(-410, centerY - ROAD_WIDTH/2, 1400, centerY-ROAD_WIDTH/2);
         horizontalLine.setStroke(Color.WHITE);
         horizontalLine.setStrokeWidth(1);
         horizontalLine.getStrokeDashArray().addAll(20.0, 20.0);
 
         // Trafik ışıkları
-        lightNorth = new TrafficLight(centerX - 80, centerY - 200, false);
+        lightNorth = new TrafficLight(centerX - 130, centerY - 210, false);
         lightNorth.setRotate(180);
-        lightSouth = new TrafficLight(centerX + 50, centerY + 100, false);
-        lightEast = new TrafficLight(centerX + 125, centerY - 120, true);
+        lightSouth = new TrafficLight(centerX , centerY + 0, false);
+        lightEast = new TrafficLight(centerX + 40, centerY - 170, true);
         lightEast.setRotate(270);
-        lightWest = new TrafficLight(centerX - 170, centerY + 10, true);
+        lightWest = new TrafficLight(centerX - 170, centerY - 40, true);
 
         intersection.getChildren().addAll(
                 verticalRoad, horizontalRoad,
