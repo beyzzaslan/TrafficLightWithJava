@@ -100,7 +100,7 @@ Burada şu algoritma kullanılır:
 
 🔢 Araç Girişi: Her yön için araç sayısı manuel girilebilir veya rastgele üret butonuyla otomatik oluşturulabilir.
 
-▶️ Başlat: “Başlat” butonuna tıklanır; sistem girilen araç sayılarına göre yeşil ışık sürelerini hesaplar ve simülasyon başlar.
+▶️ Başlat: Main'e bastıktan sonra gelen pencereden araç girişi yaptıktan sonra “Başlat” butonuna tıklanır; sistem girilen araç sayılarına göre yeşil ışık sürelerini hesaplar ve simülasyon başlar.
 
 👀 Görsellik: Ekranda her trafik ışığı için kalan süre, araçların hareketleri ve durma-ilerleme animasyonları gerçek zamanlı olarak izlenir.
 
@@ -117,6 +117,11 @@ Burada şu algoritma kullanılır:
 ![image](https://github.com/user-attachments/assets/729a9007-3d82-436f-9053-d1369e20b94d)
 
 
+---
+
+
+##👀 UML LİNK
+https://viewer.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&dark=auto#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1uRCYjhKtVGZICEVDhOjb-akhV-XK2yIC%26export%3Ddownload
 
 
 ---
