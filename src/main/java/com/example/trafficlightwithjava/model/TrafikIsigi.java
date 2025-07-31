@@ -58,7 +58,7 @@ public class TrafikIsigi {
     public void sureyiGuncelle(double gecenSure){
         birikenSure+=gecenSure;
         if(birikenSure>=1.0){
-        zamanlayici.sureyiAzalt();
+        zamanlayici.sureyiAzalt();//geri sayma işlemi
         birikenSure=0.0;}
     }
     public boolean fazBittiMi(){

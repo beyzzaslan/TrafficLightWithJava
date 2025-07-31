@@ -15,9 +15,6 @@ public class KavsakFazYonetici {//ışıkların durum değiştirmesi
     int[] kirmiziSureleri;
     int[] yesilSureleri;
     boolean sariBeklemede = false;
-    double birikenSure=0.0;
-
-
 
     int mevcutFazIndex;//hangi faz aktif yeşil-sarı-kırmızı gibi
     double fazSayaci;//o anki fazın kaç saniyedir sürdüğünü tutacak
@@ -99,7 +96,7 @@ public class KavsakFazYonetici {//ışıkların durum değiştirmesi
         if (ilkIsik != null) {
             int yesilSure = yesilSureleri[ilkYon.ordinal()];
             ilkIsik.yesilYap(yesilSure);
-            System.out.println("İlk faz başladı: " + ilkYon.name() + " Yeşil. Süre: " + yesilSure + "sn");
+            System.out.println("İlk faz başladı: " + ilkYon.name() + " Yeşil. Süre: " + yesilSure + "sn");//ilk sıradaki ışığı yeşil yaptık
         }
     }
 

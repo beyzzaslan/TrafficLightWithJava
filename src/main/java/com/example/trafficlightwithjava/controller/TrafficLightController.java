@@ -48,12 +48,13 @@ public class TrafficLightController {
     private final Konum DOGU_GIRIS_KONUM = new Konum(INTERSECTION_WIDTH, INTERSECTION_HEIGHT / 2.0 - ROAD_WIDTH / 4.0 - 50); // DOĞU arabaları için giriş yolu
     private final Konum BATI_GIRIS_KONUM = new Konum(0, INTERSECTION_HEIGHT / 2.0 + ROAD_WIDTH / 4.0 - 50); // BATI arabaları için giriş yolu
 
+    private static final double STOP_LINE_OFFSET = 75.0; // Örneğin 20 piksel
     // Durma noktaları (Işıkların önünde duracakları tahmini noktalar)
     // Bunlar da ışıkların konumuna ve araba boyutlarına göre hesaplanmalı
-    private final Konum KUZEY_DURMA_NOKTASI = new Konum(INTERSECTION_WIDTH / 2.0 - ROAD_WIDTH / 4.0, INTERSECTION_HEIGHT / 2.0 - ROAD_WIDTH / 2.0 - TrafikIsigi.SARI_ISIK_SURESI); // IntersectionView'daki ışık konumuna göre ayarlandı
-    private final Konum GUNEY_DURMA_NOKTASI = new Konum(INTERSECTION_WIDTH / 2.0 + ROAD_WIDTH / 4.0, INTERSECTION_HEIGHT / 2.0 + ROAD_WIDTH / 2.0 + TrafikIsigi.SARI_ISIK_SURESI - 125); // IntersectionView'daki ışık konumuna göre ayarlandı
-    private final Konum DOGU_DURMA_NOKTASI = new Konum(INTERSECTION_WIDTH / 2.0 + ROAD_WIDTH / 2.0 + TrafikIsigi.SARI_ISIK_SURESI - 125, INTERSECTION_HEIGHT / 2.0 - ROAD_WIDTH / 4.0); // IntersectionView'daki ışık konumuna göre ayarlandı
-    private final Konum BATI_DURMA_NOKTASI = new Konum(INTERSECTION_WIDTH / 2.0 - ROAD_WIDTH / 2.0 - TrafikIsigi.SARI_ISIK_SURESI, INTERSECTION_HEIGHT / 2.0 + ROAD_WIDTH / 4.0); // IntersectionView'daki ışık konumuna göre ayarlandı
+    private final Konum KUZEY_DURMA_NOKTASI = new Konum(INTERSECTION_WIDTH / 2.0 + ROAD_WIDTH / 4.0, INTERSECTION_HEIGHT / 2.0 - ROAD_WIDTH / 2.0 -STOP_LINE_OFFSET); // IntersectionView'daki ışık konumuna göre ayarlandı
+    private final Konum GUNEY_DURMA_NOKTASI = new Konum(INTERSECTION_WIDTH / 2.0 + ROAD_WIDTH / 4.0, INTERSECTION_HEIGHT / 2.0 - ROAD_WIDTH / 2.0 +STOP_LINE_OFFSET); // IntersectionView'daki ışık konumuna göre ayarlandı
+    private final Konum DOGU_DURMA_NOKTASI = new Konum(INTERSECTION_WIDTH / 2.0 + ROAD_WIDTH / 2.0  +STOP_LINE_OFFSET, INTERSECTION_HEIGHT / 2.0 + ROAD_WIDTH / 4.0); // IntersectionView'daki ışık konumuna göre ayarlandı
+    private final Konum BATI_DURMA_NOKTASI = new Konum(INTERSECTION_WIDTH / 2.0 - ROAD_WIDTH / 2.0 -STOP_LINE_OFFSET, INTERSECTION_HEIGHT / 2.0 - ROAD_WIDTH / 4.0); // IntersectionView'daki ışık konumuna göre ayarlandı
 
     public TrafficLightController() {
         arayuz = new Arayuz();
@@ -91,7 +92,7 @@ public class TrafficLightController {
                 ArabaView.ARABA_GENISLIGI, ArabaView.ARABA_YUKSEKLIGI
         );
 
-        // 3. Simülasyon Döngüsünü Oluşturma
+        //  Simülasyon Döngüsünü Oluşturma
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -127,17 +128,9 @@ public class TrafficLightController {
                 YonTipi yonTipi = YonTipi.valueOf(entry.getKey());
                 int count = entry.getValue();
 
-                // Modeldeki Yon nesnesinin araç yoğunluğunu güncelle
-                // Ve araçları AracYoneticisi'nin kendi iç kuyruklarına ekle
-                // (AracYoneticisi'nin topluAraclariKuyrugaEkle metodu zaten YonTipi'ne göre arabaları ekliyor)
                 aracYoneticisi.topluAraclariKuyrugaEkle(yonTipi, count);
 
-                // İlgili Yon nesnesinin AracYogunlugu'nu güncelle
-                // (AracYoneticisi'nin kuyruk yönetimi ayrı, Yon objesinin yoğunluğu ayrı tutuluyor)
-                // Bu kısım Model tutarlılığı için önemlidir.
-                // Yon listesi üzerinden ilgili Yon objesini bulup yoğunluğunu set etmeliyiz.
-                // Aksi takdirde SureHesaplayici yanlış veriyle çalışır.
-                for (Yon yon : kavsakFazYonetici.getYonList()) { // KavsakFazYonetici içindeki yonler listesine eriştik
+                  for (Yon yon : kavsakFazYonetici.getYonList()) { // KavsakFazYonetici içindeki yonler listesine eriştik
                     if (yon.getYonTipi() == yonTipi) {
                         yon.getAracYogunlugu().setSayi(count);
                         break;
@@ -257,7 +250,7 @@ public class TrafficLightController {
             }
         }
 
-        // b) Arabaları Güncelle (Ekle, Hareket Ettir, Kaldır)
+        // Arabaları Güncelle Ekle, Hareket Ettir, Kaldır
         // Yeni arabaları ekle
         for (Araba modelAraba : aracYoneticisi.getAktifArabalar()) {
             if (!arabaViewMap.containsKey(modelAraba)) {
@@ -289,7 +282,7 @@ public class TrafficLightController {
         }
     }
 
-    // Yardımcı metot: Modeldeki YonTipi'ne karşılık gelen View'deki TrafficLight nesnesini bulur
+    // Yardımcı metot: Modeldeki YonTipine karşılık gelen Viewdeki TrafficLight nesnesini bulur
     private TrafficLight getTrafficLightViewForModel(YonTipi yonTipi) {
         switch (yonTipi) {
             case KUZEY: return intersectionView.getLightNorth();

@@ -22,9 +22,9 @@ public class CarpismaOnleyici {
     private final double arabaGenisligi;
     private final double arabaYuksekligi;
 
-    private static final double VARSAYILAN_BASLANGIC_HIZI = 80.0;
+    private static final double VARSAYILAN_BASLANGIC_HIZI = 150.0;
     private static final double YAVASLAMA_CARPANI = 0.9;
-    private static final double MIN_HIZ_DURMA_ESIGI = 5.0;
+    private static final double MIN_HIZ_DURMA_ESIGI = 0.5;
     private static final double SON_DURMA_MESAFESI_ESIGI_HIZ_ORANI = 0.05;
 
 
@@ -83,6 +83,12 @@ public class CarpismaOnleyici {
             default:
                 mesafeDurmaNoktasina = Double.MAX_VALUE;
         }
+        if (isigiGectiMi(araba, durmaNoktasi)) {
+            if (ilgiliIsik.getDurumTipi() == IsıkDurumTipi.RED) {
+                System.out.println("UYARI: Araba " + araba.getId() + " kırmızı ışık ihlali yaptı!");
+            }
+            return; // durma kontrolü yapma, geçmesine izin ver
+        }
 
 
         if ((ilgiliIsik.getDurumTipi() == IsıkDurumTipi.RED || ilgiliIsik.getDurumTipi() == IsıkDurumTipi.YELLOW) &&
@@ -95,17 +101,13 @@ public class CarpismaOnleyici {
                 if (araba.getHiz() < MIN_HIZ_DURMA_ESIGI) araba.setHiz(0.0);
             }
 
-            if (ilgiliIsik.getDurumTipi() == IsıkDurumTipi.RED && isigiGectiMi(araba, durmaNoktasi)) {
-                System.out.println("UYARI: Araba " + araba.getId() + " kırmızı ışık ihlali yaptı!");
-            }
-
         } else if (ilgiliIsik.getDurumTipi() == IsıkDurumTipi.GREEN && araba.getHiz() == 0.0 && mesafeDurmaNoktasina <= 0) {
             araba.setHiz(VARSAYILAN_BASLANGIC_HIZI);
             araba.setKavsaktaMi(true);
         }
     }
 
-    private void arabaTakipKontrolu(Araba takipEdenAraba) {
+    private void arabaTakipKontrolu(Araba takipEdenAraba) {//aracın önündeki diğer araçlarla çarpışmasını önlemek için hızını ayarlar
         Araba oneCikanAraba = null;
         double enYakinMesafe = Double.MAX_VALUE;
 
@@ -163,7 +165,6 @@ public class CarpismaOnleyici {
                     takipEdenAraba.setHiz(Math.max(hedefHiz, takipEdenAraba.getHiz() * YAVASLAMA_CARPANI));
                     if (takipEdenAraba.getHiz() < MIN_HIZ_DURMA_ESIGI) takipEdenAraba.setHiz(0.0);
                 } else if (takipEdenAraba.getHiz() < hedefHiz && enYakinMesafe > arabaTakipMesafesi * 1.5) {
-                    // İstenirse hızlanma mantığı buraya eklenebilir.
                 }
 
                 if (enYakinMesafe < arabaTakipMesafesi * 0.5) {
@@ -190,6 +191,7 @@ public class CarpismaOnleyici {
     }
 
     private boolean isigiGectiMi(Araba araba, Konum durmaNoktasi) {
+        double arabaBurnu;
         switch (araba.getYon()) {
             case KUZEY:
                 return (araba.getKonum().getY() + (this.arabaYuksekligi / 2.0)) > durmaNoktasi.getY();

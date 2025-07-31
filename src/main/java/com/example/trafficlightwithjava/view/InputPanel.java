@@ -140,11 +140,11 @@ public class InputPanel extends VBox {
                 eastCount = Integer.parseInt(eastField.getText());
                 westCount = Integer.parseInt(westField.getText());
 
-                if (northCount < 1 || northCount > 100 ||
-                        southCount < 1 || southCount > 100 ||
-                        eastCount < 1 || eastCount > 100 ||
-                        westCount < 1 || westCount > 100) {
-                    showError("Tüm sayılar 1 ile 100 arasında ve 100 dahil olmalıdır.");
+                if (northCount <0 || northCount > 100 ||
+                        southCount <0 || southCount > 100 ||
+                        eastCount < 0 || eastCount > 100 ||
+                        westCount < 0 || westCount > 100) {
+                    showError("Tüm sayılar 0 ile 100 arasında olmalıdır.");
                     return;
                 }
 
@@ -184,7 +184,7 @@ public class InputPanel extends VBox {
             onApplyListener.accept(getAllCounts());
         }
         if (onStartSimulationListener != null) {
-            onStartSimulationListener.run(); // ❗ Sayaç burada başlar
+            onStartSimulationListener.run(); //Sayaç burada başlar.
         }
     }
 

@@ -70,12 +70,11 @@ public class AracYoneticisi {
             denemeYeniAracOlustur();
             olusturmaSayaci -= ARABA_OLUSTURMA_ARALIGI;
         }
-
         hareketEdenArabalariGuncelle(gecenSure);
         temizleGecenArabalari();
     }
 
-    public void topluAraclariKuyrugaEkle(YonTipi yonTipi, int toplamOlusturulacakSayi) {
+    public void topluAraclariKuyrugaEkle(YonTipi yonTipi, int toplamOlusturulacakSayi) {//girilen sayıya göre kuyruğa araç ekler
         if (toplamOlusturulacakSayi < 0) {
             throw new IllegalArgumentException("Araç sayısı negatif olamaz.");
         }
@@ -105,7 +104,7 @@ public class AracYoneticisi {
         double x = girisKonumu.getX();
         double y = girisKonumu.getY();
 
-// Konumu biraz geriden başlat (giriş yönüne göre)
+// konumu biraz geriden başlat (giriş yönüne göre)
         switch (yonTipi) {
             case KUZEY:
                 y -= arabaYuksekligi;
@@ -138,7 +137,6 @@ public class AracYoneticisi {
     private void denemeYeniAracOlusturTekYon(YonTipi yonTipi, Queue<Araba> kuyruk) {
         if (!kuyruk.isEmpty()) {
             Araba sonArabaGirisAlaninda = getSonArabaGirisAlaninda(yonTipi);
-
             boolean yerVarMi = false;
             if (sonArabaGirisAlaninda == null) {
                 yerVarMi = true;
